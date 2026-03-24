@@ -1,0 +1,103 @@
+{
+  "temperature": {
+    "unit": "°C",
+    "stops": [
+      { "value": -30, "color": "#4A148C" },
+      { "value": -20, "color": "#1A237E" },
+      { "value": -10, "color": "#0D47A1" },
+      { "value": 0,   "color": "#00BCD4" },
+      { "value": 10,  "color": "#4CAF50" },
+      { "value": 20,  "color": "#FFEB3B" },
+      { "value": 30,  "color": "#FF5722" },
+      { "value": 40,  "color": "#B71C1C" }
+    ]
+  },
+  "pressure": {
+    "unit": "hPa",
+    "stops": [
+      { "value": 980,  "color": "#1A237E" },
+      { "value": 1000, "color": "#42A5F5" },
+      { "value": 1013, "color": "#66BB6A" },
+      { "value": 1025, "color": "#FFA726" },
+      { "value": 1040, "color": "#EF5350" }
+    ]
+  },
+  "gusts": {
+    "unit": "kt",
+    "stops": [
+      { "value": 0,  "color": "#4FC3F7" },
+      { "value": 15, "color": "#66BB6A" },
+      { "value": 25, "color": "#FFCA28" },
+      { "value": 35, "color": "#FF7043" },
+      { "value": 50, "color": "#E53935" },
+      { "value": 70, "color": "#AB47BC" }
+    ]
+  },
+  "dewpoint": {
+    "unit": "°C",
+    "stops": [
+      { "value": -10, "color": "#E1F5FE" },
+      { "value": 0,   "color": "#4FC3F7" },
+      { "value": 5,   "color": "#29B6F6" },
+      { "value": 10,  "color": "#0288D1" },
+      { "value": 15,  "color": "#01579B" },
+      { "value": 20,  "color": "#4A148C" }
+    ]
+  },
+  "cape": {
+    "unit": "J/kg",
+    "stops": [
+      { "value": 0,    "color": "#263238" },
+      { "value": 100,  "color": "#A5D6A7" },
+      { "value": 500,  "color": "#66BB6A" },
+      { "value": 1000, "color": "#FFCA28" },
+      { "value": 2000, "color": "#FF7043" },
+      { "value": 3000, "color": "#E53935" },
+      { "value": 5000, "color": "#AB47BC" }
+    ]
+  },
+  "pbl_height": {
+    "unit": "m AGL",
+    "stops": [
+      { "value": 0,    "color": "#263238" },
+      { "value": 500,  "color": "#4FC3F7" },
+      { "value": 1000, "color": "#66BB6A" },
+      { "value": 1500, "color": "#FFCA28" },
+      { "value": 2000, "color": "#FF7043" },
+      { "value": 3000, "color": "#E53935" }
+    ]
+  },
+  "uv_index": {
+    "unit": "",
+    "stops": [
+      { "value": 0,  "color": "#4CAF50" },
+      { "value": 3,  "color": "#FFEB3B" },
+      { "value": 6,  "color": "#FF9800" },
+      { "value": 8,  "color": "#F44336" },
+      { "value": 11, "color": "#9C27B0" }
+    ]
+  },
+  "cloud_cover": {
+    "unit": "%",
+    "stops": [
+      { "value": 0,   "color": "rgba(0,0,0,0)" },
+      { "value": 20,  "color": "rgba(220,225,235,0.5)" },
+      { "value": 40,  "color": "rgba(210,215,225,0.7)" },
+      { "value": 60,  "color": "rgba(200,205,215,0.85)" },
+      { "value": 80,  "color": "rgba(190,195,210,0.95)" },
+      { "value": 100, "color": "rgba(180,185,200,1)" }
+    ]
+  },
+  "precipitation": {
+    "unit": "mm/h",
+    "stops": [
+      { "value": 0,    "color": "rgba(0,0,0,0)" },
+      { "value": 0.2,  "color": "#90CAF9" },
+      { "value": 1,    "color": "#42A5F5" },
+      { "value": 3,    "color": "#1E88E5" },
+      { "value": 7,    "color": "#FFCA28" },
+      { "value": 15,   "color": "#FF7043" },
+      { "value": 30,   "color": "#E53935" }
+    ]
+  }
+}

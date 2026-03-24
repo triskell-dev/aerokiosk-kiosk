@@ -1,0 +1,905 @@
+<!-- settings.html — Fragment injecté comme overlay dans index.html -->
+
+<div class="settings-backdrop" id="settingsBackdrop"></div>
+
+<div class="settings-panel" id="settingsPanel">
+
+  <!-- Header -->
+  <div class="settings-header">
+    <h2 data-i18n="settings.title">PARAMÈTRES</h2>
+    <button class="btn btn-ghost" id="btnSettingsClose" data-i18n="settings.close">✕ Fermer</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="settings-tabs" id="settingsTabs">
+    <button class="settings-tab active" data-tab="aerodrome" data-i18n="settings.tabAerodrome">Aérodrome</button>
+    <button class="settings-tab" data-tab="thresholds" data-i18n="settings.tabThresholds">Seuils</button>
+    <button class="settings-tab" data-tab="maps" data-i18n="settings.tabMaps">Carte</button>
+    <button class="settings-tab" data-tab="traffic" data-i18n="settings.tabTraffic">Trafic</button>
+    <button class="settings-tab" data-tab="sections" data-i18n="settings.tabSections">Sections</button>
+    <button class="settings-tab" data-tab="appearance" data-i18n="settings.tabAppearance">Apparence</button>
+    <button class="settings-tab" data-tab="display" data-i18n="settings.tabDisplay">Contenu club</button>
+    <button class="settings-tab" data-tab="system" data-i18n="settings.tabSystem">Système</button>
+    <button class="settings-tab" data-tab="license" data-i18n="settings.tabLicense">Licence</button>
+  </div>
+
+  <!-- Tab contents -->
+  <div class="settings-body">
+
+    <!-- ======== TAB: Aérodrome (Station + Pistes) ======== -->
+    <div class="settings-content active" data-content="aerodrome">
+      <div class="form-group">
+        <label data-i18n="settings.station.icaoLabel">Code OACI ou nom</label>
+        <div class="search-wrapper">
+          <input type="text" class="form-input" id="sStationSearch" data-i18n-placeholder="settings.station.searchPlaceholder" placeholder="Rechercher un aérodrome..." autocomplete="off" spellcheck="false">
+          <div class="search-results" id="sStationResults"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="settings.station.displayName">Nom affiché</label>
+        <input type="text" class="form-input" id="sDisplayName">
+      </div>
+      <div class="settings-row">
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="settings.station.latitude">Latitude</label>
+          <input type="number" class="form-input" id="sLat" step="0.0001">
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="settings.station.longitude">Longitude</label>
+          <input type="number" class="form-input" id="sLon" step="0.0001">
+        </div>
+      </div>
+      <div class="settings-row">
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="settings.station.fir">FIR</label>
+          <input type="text" class="form-input" id="sFir" data-i18n-placeholder="settings.station.firPlaceholder" placeholder="ex: LFRR">
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="settings.station.firName">Nom FIR</label>
+          <input type="text" class="form-input" id="sFirName" data-i18n-placeholder="settings.station.firNamePlaceholder" placeholder="ex: FIR Brest">
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="settings.station.sigmetRegion">Région SIGMET</label>
+        <select class="form-select" id="sSigmetRegion">
+          <option value="eur" data-i18n="settings.station.regionEur">Europe</option>
+          <option value="nam" data-i18n="settings.station.regionNam">Amérique du Nord</option>
+          <option value="intl" data-i18n="settings.station.regionIntl">International</option>
+        </select>
+      </div>
+
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.aerodrome.runwaysSection">Pistes</div>
+      <div class="runway-list" id="sRunwayList"></div>
+      <div class="add-runway-row" style="margin-top:12px;">
+        <div class="form-group">
+          <label data-i18n="settings.runways.name">Nom</label>
+          <input type="text" class="form-input" id="sNewRwyName" data-i18n-placeholder="settings.runways.namePlaceholder" placeholder="ex: 09" maxlength="4">
+        </div>
+        <div class="form-group">
+          <label data-i18n="settings.runways.heading">Cap (°)</label>
+          <input type="number" class="form-input" id="sNewRwyHeading" data-i18n-placeholder="settings.runways.headingPlaceholder" placeholder="090" min="0" max="360">
+        </div>
+        <button class="btn btn-secondary btn-small" id="sBtnAddRunway" data-i18n="settings.runways.add">+ Ajouter</button>
+      </div>
+    </div>
+
+    <!-- ======== TAB: Seuils ======== -->
+    <div class="settings-content" data-content="thresholds">
+      <div class="form-group">
+        <label data-i18n="settings.thresholds.profile">Profil</label>
+        <select class="form-input" id="sThresholdProfile">
+          <option value="easa">EASA (Europe)</option>
+          <option value="caa">CAA (UK)</option>
+          <option value="faa">FAA (USA)</option>
+          <option value="tcca">TCCA (Canada)</option>
+          <option value="custom" data-i18n="settings.thresholds.custom">Personnalisé</option>
+        </select>
+      </div>
+
+      <!-- Affichage read-only des catégories du preset -->
+      <div id="presetInfo" style="margin-bottom:12px;"></div>
+
+      <div id="thresholdFields">
+        <!-- Champs VFR/VFR Special/Green : visibles uniquement en mode custom -->
+        <div id="customThresholdFields">
+          <div class="settings-section-title" data-i18n="settings.thresholds.vfr">VFR</div>
+          <div class="settings-row">
+            <div class="form-group" style="flex:1;">
+              <label data-i18n="settings.thresholds.minVisibility">Visibilité min (m)</label>
+              <input type="number" class="form-input threshold-field" id="sThrVfrVis" value="5000">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label data-i18n="settings.thresholds.minCeiling">Plafond min (ft)</label>
+              <input type="number" class="form-input threshold-field" id="sThrVfrCeil" value="1500">
+            </div>
+          </div>
+
+          <div class="settings-section-title" data-i18n="settings.thresholds.vfrSpecial">VFR Spécial</div>
+          <div class="settings-row">
+            <div class="form-group" style="flex:1;">
+              <label data-i18n="settings.thresholds.minVisibility">Visibilité min (m)</label>
+              <input type="number" class="form-input threshold-field" id="sThrSpecVis" value="1500">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label data-i18n="settings.thresholds.minCeiling">Plafond min (ft)</label>
+              <input type="number" class="form-input threshold-field" id="sThrSpecCeil" value="600">
+            </div>
+          </div>
+
+          <div class="settings-section-title" data-i18n="settings.thresholds.greenThreshold">Seuil vert (conditions optimales)</div>
+          <div class="settings-row">
+            <div class="form-group" style="flex:1;">
+              <label data-i18n="settings.thresholds.minVisibility">Visibilité min (m)</label>
+              <input type="number" class="form-input threshold-field" id="sThrGreenVis" value="9999">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label data-i18n="settings.thresholds.minCeiling">Plafond min (ft)</label>
+              <input type="number" class="form-input threshold-field" id="sThrGreenCeil" value="5000">
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section-title" data-i18n="settings.thresholds.runwayWind">Vent piste</div>
+        <div class="settings-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.thresholds.crossDanger">Travers danger (kt)</label>
+            <input type="number" class="form-input threshold-field" id="sThrXwindDgr" value="25">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.thresholds.crossWarning">Travers alerte (kt)</label>
+            <input type="number" class="form-input threshold-field" id="sThrXwindWrn" value="17">
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.thresholds.tailDanger">Arrière danger (kt)</label>
+            <input type="number" class="form-input threshold-field" id="sThrTailDgr" value="11">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.thresholds.tailWarning">Arrière alerte (kt)</label>
+            <input type="number" class="form-input threshold-field" id="sThrTailWrn" value="6">
+          </div>
+        </div>
+
+        <div class="settings-section-title" data-i18n="settings.thresholds.fogTitle">Brouillard (écart T°/Rosée)</div>
+        <div class="settings-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.thresholds.fogDanger">Danger (°C)</label>
+            <input type="number" class="form-input threshold-field" id="sThrFogDgr" value="1">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.thresholds.fogWarning">Alerte (°C)</label>
+            <input type="number" class="form-input threshold-field" id="sThrFogWrn" value="2">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.thresholds.fogWatch">Vigilance (°C)</label>
+            <input type="number" class="form-input threshold-field" id="sThrFogWatch" value="4">
+          </div>
+        </div>
+
+        <div class="settings-section-title" data-i18n="settings.thresholds.metarAge">Âge METAR</div>
+        <div class="settings-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.thresholds.metarDanger">Danger (min)</label>
+            <input type="number" class="form-input threshold-field" id="sThrMetarDgr" value="60">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.thresholds.metarWarning">Alerte (min)</label>
+            <input type="number" class="form-input threshold-field" id="sThrMetarWrn" value="45">
+          </div>
+        </div>
+
+        <div class="settings-section-title" style="margin-top:16px;" data-i18n="settings.thresholds.sunsetAlert">Alerte nuit aéronautique</div>
+        <div class="settings-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.thresholds.sunsetOrange">Alerte orange (min avant)</label>
+            <input type="number" class="form-input threshold-field" id="sThrSunsetShow" value="30">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.thresholds.sunsetRed">Alerte rouge (min avant)</label>
+            <input type="number" class="form-input threshold-field" id="sThrSunsetCrit" value="15">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== TAB: Carte ======== -->
+    <div class="settings-content" data-content="maps">
+      <div class="form-group" id="sBasemapFixedGroup">
+        <label data-i18n="settings.maps.basemap">Fond de carte</label>
+        <select class="form-select" id="sMapBasemap">
+          <option value="dark" data-i18n="settings.maps.basemapDark">Sombre minimal</option>
+          <option value="darkdetail" data-i18n="settings.maps.basemapDarkDetail">Sombre détaillé (routes et villes)</option>
+          <option value="voyager" data-i18n="settings.maps.basemapVoyager">Clair (routes et villes)</option>
+          <option value="osm" data-i18n="settings.maps.basemapOsm">Standard OpenStreetMap</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" id="sMapBasemapAuto" style="margin-right:8px;"><span data-i18n="settings.maps.basemapAuto">Fond auto jour/nuit</span></label>
+      </div>
+      <div id="basemapAutoGroup" style="display:none;">
+        <div class="settings-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.maps.basemapDay">Fond de jour</label>
+            <select class="form-select" id="sMapBasemapDay">
+              <option value="voyager" data-i18n="settings.maps.basemapVoyager">Clair (routes et villes)</option>
+              <option value="osm" data-i18n="settings.maps.basemapOsm">Standard OpenStreetMap</option>
+              <option value="dark" data-i18n="settings.maps.basemapDark">Sombre minimal</option>
+              <option value="darkdetail" data-i18n="settings.maps.basemapDarkDetail">Sombre détaillé</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="settings.maps.basemapNight">Fond de nuit</label>
+            <select class="form-select" id="sMapBasemapNight">
+              <option value="dark" data-i18n="settings.maps.basemapDark">Sombre minimal</option>
+              <option value="darkdetail" data-i18n="settings.maps.basemapDarkDetail">Sombre détaillé</option>
+              <option value="voyager" data-i18n="settings.maps.basemapVoyager">Clair (routes et villes)</option>
+              <option value="osm" data-i18n="settings.maps.basemapOsm">Standard OpenStreetMap</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-row" style="display:flex; gap:16px;">
+        <div class="form-group" style="flex:1;">
+          <label><span data-i18n="settings.maps.basemapBrightnessDay">Luminosité jour</span> <span class="slider-value" id="sMapBrightnessDayVal">52</span>%</label>
+          <input type="range" class="form-range" id="sMapBrightnessDay" min="30" max="100" step="1" value="52">
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label><span data-i18n="settings.maps.basemapBrightnessNight">Luminosité nuit</span> <span class="slider-value" id="sMapBrightnessNightVal">37</span>%</label>
+          <input type="range" class="form-range" id="sMapBrightnessNight" min="20" max="100" step="1" value="37">
+        </div>
+      </div>
+      <div class="form-group">
+        <label><span data-i18n="settings.maps.weatherIntensityDark">Intensité couches météo (fond sombre)</span> <span class="slider-value" id="sWeatherDarkVal">250</span>%</label>
+        <input type="range" class="form-range" id="sWeatherDark" min="100" max="500" step="10" value="250">
+      </div>
+      <div class="form-group">
+        <label><span data-i18n="settings.maps.weatherIntensityLight">Intensité couches météo (fond clair)</span> <span class="slider-value" id="sWeatherLightVal">90</span>%</label>
+        <input type="range" class="form-range" id="sWeatherLight" min="50" max="200" step="5" value="90">
+      </div>
+      <div class="form-group">
+        <label data-i18n="settings.maps.airportsOnMap">Terrains sur la carte</label>
+        <select class="form-select" id="sMapAirports">
+          <option value="none" data-i18n="settings.maps.airportsNone">Masqués</option>
+          <option value="icao" data-i18n="settings.maps.airportsIcao">Aéroports uniquement</option>
+          <option value="ulm" data-i18n="settings.maps.airportsUlm">Bases ULM uniquement</option>
+          <option value="all" data-i18n="settings.maps.airportsAll">Aéroports + Bases ULM</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><span data-i18n="settings.maps.zoom">Zoom</span> <span class="slider-value" id="sMapZoomVal">7</span></label>
+        <input type="range" class="form-range" id="sMapZoom" min="3" max="12" step="0.25" value="7">
+      </div>
+      <div class="settings-row">
+        <div class="form-group" style="flex:1;">
+          <label><span data-i18n="settings.maps.offsetNS">Décalage N/S</span> <span class="slider-value" id="sMapOffLatVal">0</span>°</label>
+          <input type="range" class="form-range" id="sMapOffLat" min="-5" max="5" step="0.1" value="0">
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label><span data-i18n="settings.maps.offsetEW">Décalage E/O</span> <span class="slider-value" id="sMapOffLonVal">0</span>°</label>
+          <input type="range" class="form-range" id="sMapOffLon" min="-5" max="5" step="0.1" value="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label><span data-i18n="settings.maps.layerDuration">Durée par couche (s)</span> <span class="slider-value" id="sRotationVal">20</span></label>
+        <input type="range" class="form-range" id="sRotation" min="5" max="60" step="1" value="20">
+      </div>
+      <div class="form-group">
+        <label data-i18n="settings.maps.enabledLayers">Couches activées</label>
+        <div id="sMapLayers" class="toggle-list"></div>
+      </div>
+    </div>
+
+    <!-- ======== TAB: Trafic ======== -->
+    <div class="settings-content" data-content="traffic">
+      <div class="settings-section-title" data-i18n="settings.maps.trafficTitle">Trafic aérien</div>
+      <div class="form-group">
+        <label><input type="checkbox" id="sTrafficEnabled" style="margin-right:8px;"><span data-i18n="settings.maps.trafficEnabled">Afficher le trafic aérien en temps réel</span></label>
+      </div>
+      <div id="trafficSettingsGroup">
+        <div class="form-group">
+          <label data-i18n="settings.maps.trafficDetail">Niveau de détail</label>
+          <select class="form-select" id="sTrafficDetail">
+            <option value="icon" data-i18n="settings.maps.trafficIcon">Icône seule</option>
+            <option value="callsign" data-i18n="settings.maps.trafficCallsign">Icône + indicatif</option>
+            <option value="full" data-i18n="settings.maps.trafficFull">Icône + indicatif + altitude</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><span data-i18n="settings.maps.trafficRefresh">Rafraîchissement (s)</span> <span class="slider-value" id="sTrafficRefreshVal">10</span></label>
+          <input type="range" class="form-range" id="sTrafficRefresh" min="5" max="60" step="5" value="10">
+        </div>
+        <div class="form-group">
+          <label><span data-i18n="settings.maps.trafficRadius">Rayon (NM)</span> <span class="slider-value" id="sTrafficRadiusVal">135</span></label>
+          <input type="range" class="form-range" id="sTrafficRadius" min="50" max="250" step="5" value="135">
+        </div>
+        <div class="form-group">
+          <label><span data-i18n="settings.maps.trafficAlt">Altitude max (ft)</span> <span class="slider-value" id="sTrafficAltVal">10000</span> <small style="color:var(--text-dim);" data-i18n="settings.maps.trafficAltUnlimited">(0 = illimité)</small></label>
+          <input type="range" class="form-range" id="sTrafficAlt" min="0" max="45000" step="500" value="10000">
+        </div>
+        <div class="form-group">
+          <label data-i18n="settings.maps.trafficWatchlist">Mes avions (indicatifs, séparés par des virgules)</label>
+          <input type="text" class="form-input" id="sTrafficWatchlist" placeholder="F-GXYZ, F-HABC, ..." style="width:100%;">
+        </div>
+        <div class="form-group" id="watchModeGroup" style="display:none;">
+          <label data-i18n="settings.maps.trafficWatchMode">Mode d'affichage</label>
+          <select class="form-select" id="sTrafficWatchMode">
+            <option value="highlight" data-i18n="settings.maps.trafficWatchHighlight">Mes avions surlignés (tous affichés)</option>
+            <option value="only" data-i18n="settings.maps.trafficWatchOnly">Mes avions uniquement</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.maps.flarmTitle">Trafic FLARM</div>
+      <div class="form-group">
+        <label><input type="checkbox" id="sOgnEnabled" style="margin-right:8px;"><span data-i18n="settings.maps.flarmEnabled">Afficher le trafic FLARM (planeurs, ULM)</span></label>
+      </div>
+      <div id="ognSettingsGroup">
+        <div class="form-group">
+          <label><span data-i18n="settings.maps.flarmRadius">Rayon FLARM (km)</span> <span class="slider-value" id="sOgnRadiusVal">250</span></label>
+          <input type="range" class="form-range" id="sOgnRadius" min="50" max="500" step="25" value="250">
+        </div>
+        <div class="form-group" style="font-size:11px; color:var(--text-dim); line-height:1.4;" data-i18n="settings.maps.flarmHint">
+          Les aéronefs FLARM apparaissent en triangles verts sur la carte. Les filtres altitude et watchlist ci-dessus s'appliquent aussi au trafic FLARM.
+        </div>
+      </div>
+
+      <!-- Section: FlightRadar24 (API officielle) -->
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.maps.fr24Title">FlightRadar24</div>
+      <div class="form-group">
+        <label><input type="checkbox" id="sFr24Enabled" style="margin-right:8px;"><span data-i18n="settings.maps.fr24Enabled">Activer FlightRadar24 (nécessite un abonnement)</span></label>
+      </div>
+      <div id="fr24SettingsGroup">
+        <div class="form-group">
+          <label data-i18n="settings.maps.fr24ApiKey">Clé API</label>
+          <input type="text" class="form-input" id="sFr24ApiKey" data-i18n-placeholder="settings.maps.fr24ApiKeyPlaceholder" placeholder="Coller votre clé API FR24..." autocomplete="off" spellcheck="false" style="font-family:monospace; font-size:12px;">
+        </div>
+        <div class="form-group" style="font-size:11px; line-height:1.4;">
+          <a href="https://fr24api.flightradar24.com" target="_blank" style="color:var(--accent);" data-i18n="settings.maps.fr24Link">Obtenir une clé API</a> — <span style="color:var(--text-dim);">Explorer : 9$/mois</span>
+        </div>
+        <div class="form-group" style="font-size:11px; color:var(--text-dim); line-height:1.4;" data-i18n="settings.maps.fr24Hint">
+          Les avions FR24 apparaissent en rose sur la carte. Inclut les avions Mode S (MLAT) non visibles sur ADS-B.
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== TAB: Sections ======== -->
+    <div class="settings-content" data-content="sections">
+      <div class="form-group" style="margin-bottom:16px;">
+        <label data-i18n="settings.sections.activityProfile">Profil d'activité</label>
+        <select class="form-select" id="sActivityProfile">
+          <option value="standard" data-i18n="settings.sections.profileStandard">Standard (aérodrome)</option>
+          <option value="glider" data-i18n="settings.sections.profileGlider">Planeur</option>
+          <option value="aeromodel" data-i18n="settings.sections.profileAeromodel">Aéromodélisme</option>
+          <option value="custom" data-i18n="settings.sections.profileCustom">Personnalisé</option>
+        </select>
+      </div>
+      <div class="toggle-list" id="sSectionToggles">
+        <!-- rempli dynamiquement -->
+      </div>
+      <div class="form-group" style="margin-top:20px;">
+        <label data-i18n="settings.sections.tafDisplayLabel">Affichage TAF</label>
+        <select class="form-select" id="sTafDisplay">
+          <option value="raw" data-i18n="settings.sections.tafRaw">Brut uniquement</option>
+          <option value="decoded" data-i18n="settings.sections.tafDecoded">Décodé uniquement</option>
+          <option value="both" data-i18n="settings.sections.tafBoth">Brut + Décodé</option>
+          <option value="bar" data-i18n="settings.sections.tafBarOnly">Barre visuelle seule</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:20px;">
+        <label data-i18n="settings.sections.sidebarPosition">Position du panneau météo</label>
+        <select class="form-select" id="sSidebarPosition">
+          <option value="right" data-i18n="settings.sections.sidebarRight">À droite de la carte</option>
+          <option value="left" data-i18n="settings.sections.sidebarLeft">À gauche de la carte</option>
+        </select>
+      </div>
+
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.fleet.title">Tableau flotte</div>
+      <div class="toggle-row">
+        <span class="toggle-label" data-i18n="settings.fleet.showOverlay">Tableau flotte (carrousel)</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="sFleetShowOverlay">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <span class="toggle-label" data-i18n="settings.fleet.showStatusBar">Rapport flotte (sidebar)</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="sFleetShowStatusBar">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="fleetSidebarGroup" style="display:none; margin-left:12px; padding-left:12px; border-left:2px solid rgba(255,255,255,0.1);">
+        <div class="toggle-row">
+          <span class="toggle-label" data-i18n="settings.fleet.showGoSidebar">Afficher les avions GO</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sFleetShowGo">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label" data-i18n="settings.fleet.showMaintSidebar">Afficher les avions en maintenance</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sFleetShowMaint" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label" data-i18n="settings.fleet.showSimSidebar">Afficher les simulateurs</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sFleetShowSim">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="form-group">
+          <label><span data-i18n="settings.fleet.statusScroll">Défilement sidebar — durée par page (secondes)</span> <span class="slider-value" id="sFleetStatusScrollVal">5</span></label>
+          <input type="range" class="form-range" id="sFleetStatusScroll" min="3" max="15" step="1" value="5">
+        </div>
+      </div>
+      <div id="fleetSettingsGroup" style="display:none;">
+        <div class="form-group" style="margin-top:12px;">
+          <label data-i18n="settings.fleet.source">Source des données</label>
+          <select class="form-select" id="sFleetSource">
+            <option value="manual" data-i18n="settings.fleet.sourceManual">Saisie manuelle (admin)</option>
+            <option value="api" data-i18n="settings.fleet.sourceApi">API externe</option>
+          </select>
+        </div>
+        <div id="fleetApiGroup" style="display:none;">
+          <div class="form-group">
+            <label data-i18n="settings.fleet.apiEndpoint">URL de l'API</label>
+            <input type="text" class="form-input" id="sFleetApiEndpoint" placeholder="https://..." style="font-family:monospace; font-size:12px;">
+          </div>
+          <div class="form-group">
+            <label data-i18n="settings.fleet.apiKey">Clé API</label>
+            <input type="text" class="form-input" id="sFleetApiKey" autocomplete="off" style="font-family:monospace; font-size:12px;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label><span data-i18n="settings.fleet.duration">Durée d'affichage (s)</span> <span class="slider-value" id="sFleetDurationVal">15</span></label>
+          <input type="range" class="form-range" id="sFleetDuration" min="5" max="60" step="1" value="15">
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label" data-i18n="settings.fleet.showHours">Afficher les heures de vol</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sFleetShowHours" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label" data-i18n="settings.fleet.autoWatchlist">Ajouter la flotte à mes avions (trafic)</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sFleetAutoWatchlist">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="form-group">
+          <label><span data-i18n="settings.fleet.overlayScroll">Défilement overlay (s)</span> <span class="slider-value" id="sFleetOverlayScrollVal">8</span></label>
+          <input type="range" class="form-range" id="sFleetOverlayScroll" min="5" max="30" step="1" value="8">
+        </div>
+        <div style="margin-top:12px;">
+          <button type="button" class="btn btn-secondary btn-small" id="btnFleetManage" data-i18n="settings.fleet.manage">Gérer la flotte</button>
+        </div>
+      </div>
+
+      <!-- Modal gestion flotte -->
+      <div class="fleet-modal-overlay" id="fleetModalOverlay">
+        <div class="fleet-modal">
+          <div class="fleet-modal-header">
+            <h3 data-i18n="settings.fleet.manage">Gérer la flotte</h3>
+            <button type="button" class="fleet-modal-close" id="btnFleetModalClose">✕</button>
+          </div>
+          <div class="fleet-modal-body">
+            <div id="fleetListView">
+              <div id="fleetList"></div>
+              <button type="button" class="btn btn-primary btn-small" id="btnFleetAdd" style="margin-top:12px;">
+                <span>+</span> <span data-i18n="settings.fleet.add">Ajouter un aéronef</span>
+              </button>
+            </div>
+            <div id="fleetFormView" style="display:none;">
+              <h4 id="fleetFormTitle" data-i18n="settings.fleet.add">Ajouter un aéronef</h4>
+              <div class="settings-row" style="gap:12px; margin-bottom:16px;">
+                <div class="form-group" style="flex:1;">
+                  <label data-i18n="settings.fleet.registration">Immatriculation</label>
+                  <input type="text" class="form-input" id="sfReg" style="text-transform:uppercase; letter-spacing:1px;" placeholder="F-GXYZ">
+                </div>
+                <div class="form-group" style="flex:1;">
+                  <label data-i18n="settings.fleet.type">Type</label>
+                  <input type="text" class="form-input" id="sfType" placeholder="Cessna 172S">
+                </div>
+              </div>
+              <div class="form-group">
+                <label data-i18n="settings.fleet.hours">Heures totales</label>
+                <input type="number" class="form-input" id="sfHours" step="0.1" min="0" style="width:160px;">
+              </div>
+              <div class="form-group">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                  <input type="checkbox" id="sfSimulator">
+                  <span data-i18n="settings.fleet.simulator">Simulateur</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label data-i18n="settings.fleet.status">Statut</label>
+                <div class="fleet-status-radios">
+                  <label class="fleet-status-radio"><input type="radio" name="sfStatus" value="go" checked><span class="fleet-status-dot" style="background:#22c55e;"></span> GO</label>
+                  <label class="fleet-status-radio"><input type="radio" name="sfStatus" value="mel"><span class="fleet-status-dot" style="background:#f59e0b;"></span> MEL</label>
+                  <label class="fleet-status-radio"><input type="radio" name="sfStatus" value="nogo"><span class="fleet-status-dot" style="background:#ef4444;"></span> NO GO</label>
+                  <label class="fleet-status-radio"><input type="radio" name="sfStatus" value="maint"><span class="fleet-status-dot" style="background:#a855f7;"></span> MAINT</label>
+                </div>
+              </div>
+              <div id="sfMelSection" style="display:none;">
+                <div class="settings-section-title" data-i18n="settings.fleet.melItems">Items MEL</div>
+                <div id="sfMelList"></div>
+                <button type="button" class="btn btn-secondary btn-small" id="btnSfMelAdd" style="margin-top:8px;">
+                  <span>+</span> <span data-i18n="settings.fleet.melAdd">Ajouter une MEL</span>
+                </button>
+              </div>
+              <div id="sfNogoSection" style="display:none;">
+                <div class="form-group">
+                  <label data-i18n="settings.fleet.nogoReason">Motif d'indisponibilité</label>
+                  <textarea class="form-input" id="sfNogoReason" rows="2"></textarea>
+                </div>
+              </div>
+              <div id="sfMaintSection" style="display:none;">
+                <div class="form-group">
+                  <label data-i18n="settings.fleet.maintReason">Motif de maintenance</label>
+                  <textarea class="form-input" id="sfMaintReason" rows="2"></textarea>
+                </div>
+              </div>
+              <div style="display:flex; gap:8px; margin-top:16px;">
+                <button type="button" class="btn btn-ghost" id="btnFleetFormCancel" data-i18n="settings.cancel">Annuler</button>
+                <button type="button" class="btn btn-primary" id="btnFleetFormSave" data-i18n="settings.fleet.save">Enregistrer</button>
+              </div>
+              <div id="sfError" class="form-error" style="margin-top:8px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.gearup.title">Connecteur externe</div>
+      <div class="toggle-row">
+        <span class="toggle-label" data-i18n="settings.gearup.enabled">Activer le connecteur externe</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="sGearupEnabled">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="gearupSettingsGroup" style="display:none;">
+        <div class="form-group" style="margin-top:12px;">
+          <label data-i18n="settings.gearup.apiSource">Source des données</label>
+          <select class="form-select" id="sGearupApiSource">
+            <option value="" data-i18n="settings.gearup.sourceNone">Aucune (saisie manuelle)</option>
+            <option value="gearup" data-i18n="settings.gearup.sourceGearup">GearUp</option>
+          </select>
+        </div>
+        <div id="gearupApiGroup" style="display:none;">
+          <div class="form-group">
+            <label data-i18n="settings.gearup.apiEndpoint">URL du serveur GearUp</label>
+            <input type="text" class="form-input" id="sGearupApiEndpoint" placeholder="https://gearup.example.com" style="font-family:monospace; font-size:12px;">
+          </div>
+          <div class="form-group">
+            <label data-i18n="settings.gearup.apiKey">Clé API</label>
+            <input type="text" class="form-input" id="sGearupApiKey" autocomplete="off" style="font-family:monospace; font-size:12px;">
+          </div>
+          <div class="form-group">
+            <label><span data-i18n="settings.gearup.pollInterval">Fréquence de polling (s)</span> <span class="slider-value" id="sGearupPollVal">300</span></label>
+            <input type="range" class="form-range" id="sGearupPoll" min="30" max="600" step="30" value="300">
+          </div>
+          <button type="button" class="btn btn-secondary btn-small" id="btnTestGearUp" data-i18n="settings.gearup.testConnection">Tester la connexion</button>
+          <span id="gearupTestResult" style="margin-left:12px; font-size:12px;"></span>
+        </div>
+        <div class="settings-row" style="gap:12px; margin-top:16px;">
+          <div class="form-group" style="flex:1;">
+            <label><span data-i18n="settings.rooms.briefingMinutes">Briefing par défaut (min)</span> <span class="slider-value" id="sRoomsBriefVal">30</span></label>
+            <input type="range" class="form-range" id="sRoomsBrief" min="5" max="60" step="5" value="30">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label><span data-i18n="settings.rooms.debriefingMinutes">Débriefing par défaut (min)</span> <span class="slider-value" id="sRoomsDebriefVal">15</span></label>
+            <input type="range" class="form-range" id="sRoomsDebrief" min="0" max="60" step="5" value="15">
+          </div>
+        </div>
+      </div>
+
+    <!-- ======== TAB: Apparence (Thème + Branding) ======== -->
+    <div class="settings-content" data-content="appearance">
+      <div class="settings-section-title" data-i18n="settings.appearance.themeSection">Thème</div>
+      <div class="form-group">
+        <label data-i18n="settings.theme.mode">Mode</label>
+        <div class="settings-row" style="gap:12px; margin-bottom:16px;">
+          <label class="radio-label">
+            <input type="radio" name="sThemeMode" value="auto" checked> <span data-i18n="settings.theme.auto">Auto (jour/nuit)</span>
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="sThemeMode" value="fixed"> <span data-i18n="settings.theme.fixed">Thème fixe</span>
+          </label>
+        </div>
+      </div>
+
+      <div id="sThemeAutoConfig">
+        <div class="form-group">
+          <label data-i18n="settings.theme.dayTheme">Thème jour</label>
+          <div class="theme-grid" id="sThemeDayGrid"></div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="settings.theme.nightTheme">Thème nuit</label>
+          <div class="theme-grid" id="sThemeNightGrid"></div>
+        </div>
+      </div>
+
+      <div id="sThemeFixedConfig" style="display:none;">
+        <div class="form-group">
+          <label data-i18n="settings.theme.themeLabel">Thème</label>
+          <div class="theme-grid" id="sThemeFixedGrid"></div>
+        </div>
+      </div>
+
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.appearance.brandingSection">Identité visuelle</div>
+      <div class="form-group">
+        <label data-i18n="settings.branding.displayTitle">Titre affiché</label>
+        <input type="text" class="form-input" id="sAppTitle" data-i18n-placeholder="settings.branding.displayTitlePlaceholder" placeholder="ex: IROISE">
+        <div class="form-hint" data-i18n="settings.branding.displayTitleHint">Affiché en gros dans le header du dashboard.</div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="settings.branding.clubName">Nom du club</label>
+        <input type="text" class="form-input" id="sClubName" data-i18n-placeholder="settings.branding.clubNamePlaceholder" placeholder="ex: Aéroclub Iroise">
+      </div>
+      <div class="form-group">
+        <label data-i18n="settings.branding.logoDay">Logo jour</label>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button class="btn btn-secondary btn-small" id="sBtnLogoDayPick" data-i18n="settings.branding.choose">Choisir...</button>
+          <span class="form-hint" id="sLogoDayName">—</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="settings.branding.logoNight">Logo nuit</label>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button class="btn btn-secondary btn-small" id="sBtnLogoNightPick" data-i18n="settings.branding.choose">Choisir...</button>
+          <span class="form-hint" id="sLogoNightName">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== TAB: Contenu club ======== -->
+    <div class="settings-content" data-content="display">
+      <div id="clubDisplaySettingsGroup">
+        <div class="settings-section-title" data-i18n="settings.display.serverEnabled">Serveur local</div>
+        <div class="toggle-row">
+          <span class="toggle-label" data-i18n="settings.display.serverEnabled">Serveur local</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sClubServerEnabled">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="form-hint" style="margin-top:4px;" data-i18n="settings.display.serverHint">
+          Le serveur local permet d'accéder à l'interface admin depuis le WiFi du club, sans internet.
+        </div>
+
+        <div id="clubServerSettingsGroup">
+          <div class="form-group" style="margin-top:12px;">
+            <label data-i18n="settings.display.serverPort">Port</label>
+            <input type="number" class="form-input" id="sClubServerPort" value="3000" min="1024" max="65535" style="width:120px;">
+          </div>
+        </div>
+
+        <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.display.placement">Mode de rotation</div>
+        <div class="form-group">
+          <select class="form-select" id="sClubPlacement">
+            <option value="after" data-i18n="settings.display.placementAfter">Slides club après la météo</option>
+            <option value="interleaved" data-i18n="settings.display.placementInterleaved">Intercalé avec la météo</option>
+            <option value="only" data-i18n="settings.display.placementOnly">Contenu club uniquement</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label><span data-i18n="settings.display.defaultDuration">Durée par défaut des slides (s)</span> <span class="slider-value" id="sClubDurationVal">15</span></label>
+          <input type="range" class="form-range" id="sClubDuration" min="5" max="60" step="1" value="15">
+        </div>
+
+        <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.display.localAccess">Accès interface admin</div>
+        <div class="form-group">
+          <div id="clubAdminUrlDisplay" style="font-family:'JetBrains Mono',monospace; font-size:15px; color:var(--wiz-accent); padding:10px 14px; background:var(--wiz-bg); border:1px solid var(--wiz-border); border-radius:var(--wiz-radius); user-select:all;">
+            —
+          </div>
+          <div class="form-hint" style="margin-top:6px;" data-i18n="settings.display.adminHint">
+            Ouvrez cette adresse depuis un appareil connecté au même réseau WiFi que le kiosque.
+          </div>
+        </div>
+        <div class="form-group" style="text-align:center;">
+          <canvas id="clubQrCanvas" width="160" height="160" style="border-radius:8px; background:#fff; display:none;"></canvas>
+        </div>
+        <div class="form-hint" style="text-align:center; margin-top:8px;" data-i18n="settings.display.contentHint">
+          La gestion du contenu (slides, flash info, flash urgent) se fait via l'interface web admin.
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== TAB: Système ======== -->
+    <div class="settings-content" data-content="system">
+      <div class="settings-section-title" data-i18n="settings.general.languageSection">Langue</div>
+      <div class="form-group">
+        <label data-i18n="settings.language.label">Langue de l'interface</label>
+        <select class="form-select" id="sLanguage"></select>
+      </div>
+
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.units.title">Unités d'affichage</div>
+      <div class="settings-row">
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="settings.units.pressure">Pression</label>
+          <select class="form-input" id="sUnitPressure">
+            <option value="hPa">hPa</option>
+            <option value="inHg">inHg</option>
+          </select>
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="settings.units.visibility">Visibilité</label>
+          <select class="form-input" id="sUnitVisibility">
+            <option value="metric" data-i18n="settings.units.metric">Métrique (m/km)</option>
+            <option value="sm" data-i18n="settings.units.statuteMiles">Statute Miles (SM)</option>
+          </select>
+        </div>
+      </div>
+      <div class="settings-row">
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="settings.units.temperature">Température</label>
+          <select class="form-input" id="sUnitTemperature">
+            <option value="C">°C</option>
+            <option value="F">°F</option>
+          </select>
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="settings.units.wind">Vent</label>
+          <select class="form-input" id="sUnitWind">
+            <option value="kt" data-i18n="settings.units.knots">Nœuds (kt)</option>
+            <option value="kmh" data-i18n="settings.units.kmh">km/h</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="electron-only">
+        <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.sections.kioskTitle">Mode kiosque</div>
+        <div class="toggle-row">
+          <span class="toggle-label" data-i18n="settings.sections.kioskLabel">Verrouiller l'écran (mode kiosque)</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sKioskEnabled">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="form-hint" style="margin-top:4px;" data-i18n="settings.sections.kioskHint">
+          Bloque Alt+F4, Escape et masque la barre des tâches. L'app redémarre en plein écran verrouillé. Pour désactiver : cliquez sur le logo → mot de passe admin → décochez ce toggle → Enregistrer.
+        </div>
+      </div>
+
+      <!-- Écran principal (Electron : sélecteur physique) -->
+      <div class="electron-only">
+        <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.screens.mainDisplay">Écran principal</div>
+        <div class="form-group">
+          <select class="form-input" id="sMainDisplay" style="max-width:320px;"></select>
+          <div class="form-hint" data-i18n="settings.screens.mainHint">L'écran principal utilise la configuration globale (sections, carte, sidebar, etc.).</div>
+          <div id="sMainScreenToggles" style="display:flex; gap:16px; align-items:center; flex-wrap:wrap; margin-top:8px;"></div>
+        </div>
+      </div>
+
+      <!-- Écrans supplémentaires (Electron : sélecteur physique) -->
+      <div class="electron-only">
+        <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.screens.title">Écrans supplémentaires</div>
+        <div class="form-hint" style="margin-bottom:12px;" data-i18n="settings.screens.hint">Configurez l'affichage de chaque écran supplémentaire. Les options non personnalisées héritent de la configuration globale.</div>
+        <div id="sScreenList" style="display:flex; flex-direction:column; gap:8px;"></div>
+        <button class="btn btn-secondary btn-small" id="sBtnAddScreen" style="margin-top:8px;" data-i18n="settings.screens.add">Ajouter un écran</button>
+      </div>
+
+      <!-- Multi-écran web (visible uniquement en mode web) -->
+      <div class="web-only" style="display:none;">
+        <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.screens.webTitle">Multi-écran (web)</div>
+        <div class="form-hint" style="margin-bottom:12px;">Ouvrez des onglets supplémentaires pour afficher le dashboard sur plusieurs écrans. Chaque onglet peut avoir sa propre configuration (carte, sidebar, planning, etc.).</div>
+        <div id="sWebScreenList" style="display:flex; flex-direction:column; gap:8px;"></div>
+        <button class="btn btn-secondary btn-small" id="sBtnOpenWebScreen" style="margin-top:8px;">Ouvrir un écran supplémentaire</button>
+      </div>
+
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.general.securitySection">Sécurité</div>
+      <div class="form-group" id="passwordChangeGroup">
+        <button class="btn btn-secondary btn-small" id="sBtnChangePassword" data-i18n="settings.general.changePassword">Modifier le mot de passe</button>
+        <div id="passwordChangeForm" style="display:none; margin-top:12px;">
+          <div id="passwordOldGroup" class="form-group" style="margin-bottom:8px;">
+            <label data-i18n="settings.general.currentPassword">Mot de passe actuel</label>
+            <input type="password" class="form-input" id="sPwdOld" data-i18n-placeholder="settings.general.currentPasswordPlaceholder" placeholder="Mot de passe actuel">
+          </div>
+          <div class="form-group" style="margin-bottom:8px;">
+            <label data-i18n="settings.general.newPassword">Nouveau mot de passe</label>
+            <input type="password" class="form-input" id="sPwdNew" data-i18n-placeholder="settings.general.newPasswordPlaceholder" placeholder="Nouveau mot de passe">
+          </div>
+          <div class="form-group" style="margin-bottom:8px;">
+            <label data-i18n="settings.general.confirmPassword">Confirmer</label>
+            <input type="password" class="form-input" id="sPwdConfirm" data-i18n-placeholder="settings.general.confirmPasswordPlaceholder" placeholder="Confirmer le nouveau mot de passe">
+          </div>
+          <div class="form-error" id="sPwdChangeError"></div>
+          <div class="form-success" id="sPwdChangeSuccess" style="display:none;"></div>
+          <div style="display:flex; gap:8px; margin-top:8px;">
+            <button class="btn btn-primary btn-small" id="sBtnPwdSave" data-i18n="settings.general.savePassword">Enregistrer</button>
+            <button class="btn btn-ghost btn-small" id="sBtnPwdCancel" data-i18n="settings.cancel">Annuler</button>
+          </div>
+        </div>
+        <div class="form-hint" style="margin-top:6px;" id="passwordStatusHint"></div>
+      </div>
+
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.general.configSection">Configuration</div>
+      <div class="form-group">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-secondary btn-small" id="sBtnExport" data-i18n="settings.footer.export">Exporter</button>
+          <button class="btn btn-secondary btn-small" id="sBtnImport" data-i18n="settings.footer.import">Importer</button>
+        </div>
+        <div class="form-hint" style="margin-top:6px;" data-i18n="settings.general.configHint">Exporter ou importer la configuration complète (fichier JSON).</div>
+      </div>
+      <div class="form-group" style="margin-top:8px;">
+        <button class="btn btn-secondary btn-small" id="btnRerunWizard" data-i18n="settings.station.rerunWizard">Relancer le wizard</button>
+        <div class="form-hint" style="margin-top:6px;" data-i18n="settings.general.wizardHint">Recommencer la configuration initiale depuis le début.</div>
+      </div>
+
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.general.connectionSection">Connexion</div>
+      <div class="form-group">
+        <button class="btn btn-secondary btn-small" id="sBtnTestConn" data-i18n="settings.footer.testConnection">Tester connexion</button>
+        <div id="testConnResult" style="margin-top:8px;"></div>
+      </div>
+
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.general.appSection">Application</div>
+      <div class="form-group">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+          <span style="color:var(--wiz-text-dim); font-size:13px;" data-i18n="settings.app.version">Version :</span>
+          <strong id="sAppVersion" style="font-size:14px; letter-spacing:0.5px;">—</strong>
+          <span id="sUpdateBadge" style="display:none; font-size:11px; padding:2px 8px; border-radius:4px; background:#22c55e; color:#fff; font-weight:700;"></span>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-secondary btn-small electron-only" id="sBtnCheckUpdate" data-i18n="settings.app.checkUpdate">Vérifier les mises à jour</button>
+          <button class="btn btn-danger btn-small electron-only" id="sBtnQuitApp" data-i18n="settings.footer.quit">Quitter l'application</button>
+        </div>
+        <div id="sUpdateResult" style="margin-top:6px; font-size:12px;"></div>
+      </div>
+    </div>
+
+    <!-- ======== TAB: Licence ======== -->
+    <div class="settings-content" data-content="license">
+      <div class="form-group">
+        <label data-i18n="settings.license.currentKey">Clé actuelle</label>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <code id="sLicenseKeyDisplay" style="font-size:16px; letter-spacing:1px;">—</code>
+          <span id="sLicenseStatusBadge"></span>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top:12px;">
+        <div style="display:flex; gap:24px; color:var(--wiz-text-dim); font-size:13px;">
+          <span><span data-i18n="settings.license.expiration">Expiration :</span> <strong id="sLicenseExpires" style="color:var(--wiz-text);">—</strong></span>
+          <span><span data-i18n="settings.license.lastCheck">Dernière vérif. :</span> <strong id="sLicenseLastCheck" style="color:var(--wiz-text);">—</strong></span>
+        </div>
+      </div>
+
+      <div id="sBuyLicenseBox" class="form-group" style="margin-top:16px; display:none;">
+        <a href="https://aerokiosk.app/buy" target="_blank" class="btn btn-primary" data-i18n="settings.license.buy" style="text-decoration:none;">Acheter une licence ↗</a>
+      </div>
+
+      <div class="form-group" style="margin-top:20px;">
+        <label data-i18n="settings.license.enterNewKey">Entrer une nouvelle clé</label>
+        <div class="license-input-group">
+          <input type="text" class="form-input" id="sLicenseKey" data-i18n-placeholder="settings.license.keyLabel" placeholder="Clé de licence" autocomplete="off" spellcheck="false">
+          <button class="btn btn-primary btn-small" id="sBtnValidateLicense" data-i18n="settings.license.validate">Valider</button>
+        </div>
+        <div class="form-error" id="sLicenseError"></div>
+      </div>
+
+      <div class="settings-section-title" style="margin-top:24px;" data-i18n="settings.license.devices">Appareils enregistrés</div>
+      <div id="sDeviceList" style="margin-top:8px;">
+        <div style="color:var(--wiz-text-dim); font-size:13px;" data-i18n="settings.license.devicesLoading">Chargement...</div>
+      </div>
+    </div>
+
+  </div><!-- /settings-body -->
+
+  <!-- Footer -->
+  <div class="settings-footer">
+    <div class="settings-footer-left"></div>
+    <div class="settings-footer-right">
+      <button class="btn btn-ghost" id="btnSettingsCancel" data-i18n="settings.cancel">Annuler</button>
+      <button class="btn btn-primary" id="btnSettingsSave" data-i18n="settings.save">Enregistrer</button>
+    </div>
+  </div>
+
+</div><!-- /settings-panel -->

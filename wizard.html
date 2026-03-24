@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, height=1080">
+  <title>AeroKiosk — Configuration</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body class="wizard-page">
+
+<div class="wizard">
+
+  <!-- Header -->
+  <div class="wizard-header">
+    <h1 data-i18n="app.title">AEROKIOSK</h1>
+    <p data-i18n="wizard.title">Configuration initiale</p>
+  </div>
+
+  <!-- Stepper -->
+  <div class="wizard-stepper">
+    <div class="wizard-step-dot active" data-step="0">1</div>
+    <div class="wizard-step-line" data-line="0"></div>
+    <div class="wizard-step-dot" data-step="1">2</div>
+    <div class="wizard-step-line" data-line="1"></div>
+    <div class="wizard-step-dot" data-step="2">3</div>
+    <div class="wizard-step-line" data-line="2"></div>
+    <div class="wizard-step-dot" data-step="3">4</div>
+    <div class="wizard-step-line" data-line="3"></div>
+    <div class="wizard-step-dot" data-step="4">5</div>
+    <div class="wizard-step-line" data-line="4"></div>
+    <div class="wizard-step-dot" data-step="5">6</div>
+  </div>
+
+  <!-- Step content -->
+  <div class="wizard-body">
+
+    <!-- ========== STEP 0 : Langue ========== -->
+    <div class="wizard-step active" id="step-0">
+      <div class="step-title" data-i18n="wizard.language.title">Langue</div>
+      <div class="step-subtitle" data-i18n="wizard.language.subtitle">Choisissez la langue de l'interface.</div>
+      <div class="lang-grid" id="langGrid"></div>
+    </div>
+
+    <!-- ========== STEP 1 : Licence ========== -->
+    <div class="wizard-step" id="step-1">
+      <div class="step-title" data-i18n="wizard.license.title">Clé de licence</div>
+      <div class="step-subtitle" data-i18n="wizard.license.subtitle">Entrez votre clé produit pour activer AeroKiosk, ou passez en mode démonstration.</div>
+
+      <div class="form-group">
+        <label data-i18n="wizard.license.keyLabel">Clé produit</label>
+        <div class="license-input-group">
+          <input type="text" class="form-input" id="licenseKey"
+                 placeholder="AERO-XXXX-XXXX-XXXX" data-i18n-placeholder="wizard.license.keyPlaceholder"
+                 maxlength="19" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="form-error" id="licenseError"></div>
+      </div>
+
+      <div id="licenseStatus" style="margin-top: 12px;"></div>
+    </div>
+
+    <!-- ========== STEP 2 : Aérodrome ========== -->
+    <div class="wizard-step" id="step-2">
+      <div class="step-title" data-i18n="wizard.airport.title">Votre aérodrome</div>
+      <div class="step-subtitle" id="airportSubtitle">Tapez un code OACI (ex : LFRB) ou un nom de ville. La base contient 1190 terrains français.</div>
+
+      <div class="form-group">
+        <label data-i18n="wizard.airport.searchLabel">Rechercher</label>
+        <div class="search-wrapper">
+          <input type="text" class="form-input" id="airportSearch"
+                 placeholder="Code OACI ou nom de ville..." data-i18n-placeholder="wizard.airport.searchPlaceholder"
+                 autocomplete="off" spellcheck="false">
+          <div class="search-results" id="airportResults"></div>
+        </div>
+      </div>
+
+      <div id="airportInfo" style="display:none;">
+        <div class="info-card" id="airportInfoCard"></div>
+        <div class="metar-notice" id="metarNotice" style="display:none;"></div>
+      </div>
+    </div>
+
+    <!-- ========== STEP 3 : Pistes ========== -->
+    <div class="wizard-step" id="step-3">
+      <div class="step-title" data-i18n="wizard.runways.title">Pistes</div>
+      <div class="step-subtitle" id="runwaySubtitle">Vérifiez les pistes détectées. Vous pouvez en ajouter ou en supprimer.</div>
+
+      <div class="runway-list" id="runwayList"></div>
+
+      <div class="add-runway-row">
+        <div class="form-group">
+          <label data-i18n="settings.runways.name">Nom</label>
+          <input type="text" class="form-input" id="newRwyName" placeholder="ex: 09" data-i18n-placeholder="settings.runways.namePlaceholder" maxlength="4">
+        </div>
+        <div class="form-group">
+          <label data-i18n="settings.runways.heading">Cap (°)</label>
+          <input type="number" class="form-input" id="newRwyHeading" placeholder="090" data-i18n-placeholder="settings.runways.headingPlaceholder" min="0" max="360">
+        </div>
+        <button class="btn btn-secondary btn-small" id="btnAddRunway" data-i18n="settings.runways.add">+ Ajouter</button>
+      </div>
+    </div>
+
+    <!-- ========== STEP 4 : Personnalisation ========== -->
+    <div class="wizard-step" id="step-4">
+      <div class="step-title" data-i18n="wizard.customization.title">Personnalisation</div>
+      <div class="step-subtitle" data-i18n="wizard.customization.subtitle">Configurez l'apparence de votre dashboard.</div>
+
+      <div class="form-group">
+        <label data-i18n="wizard.customization.clubName">Nom du club</label>
+        <input type="text" class="form-input" id="clubName" placeholder="ex: Aéroclub Iroise" data-i18n-placeholder="wizard.customization.clubNamePlaceholder">
+      </div>
+
+      <div class="form-group">
+        <label data-i18n="wizard.customization.displayTitle">Titre affiché sur le dashboard</label>
+        <input type="text" class="form-input" id="appTitle" placeholder="ex: IROISE (en majuscules)" data-i18n-placeholder="wizard.customization.displayTitlePlaceholder">
+      </div>
+
+      <div class="form-group">
+        <label data-i18n="wizard.customization.logoDay">Logo jour</label>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button class="btn btn-secondary btn-small" id="btnLogoDayPick" data-i18n="wizard.customization.choose">Choisir...</button>
+          <span class="form-hint" id="logoDayName" data-i18n="wizard.customization.noFile">Aucun fichier</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label data-i18n="wizard.customization.logoNight">Logo nuit</label>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button class="btn btn-secondary btn-small" id="btnLogoNightPick" data-i18n="wizard.customization.choose">Choisir...</button>
+          <span class="form-hint" id="logoNightName" data-i18n="wizard.customization.noFile">Aucun fichier</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label data-i18n="wizard.customization.theme">Thème</label>
+        <div class="theme-grid" id="themeGrid">
+          <div class="theme-card selected" data-theme="auto">
+            <div class="theme-preview" style="background: linear-gradient(90deg, #f0f2f5 50%, #0a0e14 50%);"></div>
+            <div class="theme-name" data-i18n="wizard.customization.themeAuto">Auto</div>
+          </div>
+          <div class="theme-card" data-theme="cockpit">
+            <div class="theme-preview" style="background: #0a0e14;"></div>
+            <div class="theme-name" data-i18n="wizard.customization.themeCockpit">Cockpit</div>
+          </div>
+          <div class="theme-card" data-theme="ocean">
+            <div class="theme-preview" style="background: #0b1622;"></div>
+            <div class="theme-name" data-i18n="wizard.customization.themeOcean">Océan</div>
+          </div>
+          <div class="theme-card" data-theme="daylight">
+            <div class="theme-preview" style="background: #f0f2f5;"></div>
+            <div class="theme-name" data-i18n="wizard.customization.themeDaylight">Daylight</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label data-i18n="wizard.customization.password">Mot de passe admin</label>
+        <div class="password-wrapper">
+          <input type="password" class="form-input" id="adminPassword" placeholder="Protège l'accès aux réglages" data-i18n-placeholder="wizard.customization.passwordPlaceholder">
+          <button type="button" class="password-toggle" id="btnTogglePwd">👁</button>
+        </div>
+        <div class="form-hint" data-i18n="wizard.customization.passwordHint">Ce mot de passe sera demandé pour accéder aux réglages depuis le dashboard.</div>
+      </div>
+
+      <div class="form-group">
+        <label data-i18n="wizard.customization.passwordConfirm">Confirmer le mot de passe</label>
+        <div class="password-wrapper">
+          <input type="password" class="form-input" id="adminPasswordConfirm" placeholder="Confirmer" data-i18n-placeholder="wizard.customization.passwordConfirmPlaceholder">
+        </div>
+        <div class="form-error" id="passwordError"></div>
+      </div>
+    </div>
+
+    <!-- ========== STEP 5 : Résumé ========== -->
+    <div class="wizard-step" id="step-5">
+      <div class="step-title" data-i18n="wizard.summary.title">Résumé</div>
+      <div class="step-subtitle" data-i18n="wizard.summary.subtitle">Vérifiez votre configuration avant de lancer le dashboard.</div>
+
+      <div class="summary-grid" id="summaryGrid"></div>
+    </div>
+
+  </div><!-- /wizard-body -->
+
+  <!-- Footer navigation -->
+  <div class="wizard-footer">
+    <button class="btn btn-ghost" id="btnPrev" style="visibility:hidden;" data-i18n="wizard.prev">← Retour</button>
+    <div></div>
+    <div style="display:flex; gap:8px;">
+      <button class="btn btn-ghost" id="btnBuyLicense" style="display:none;" onclick="window.open('https://aerokiosk.app/buy','_blank')" data-i18n="wizard.license.buy">Acheter une licence ↗</button>
+      <button class="btn btn-ghost" id="btnSkipLicense" style="display:none;" data-i18n="wizard.demoMode">Mode démonstration →</button>
+      <button class="btn btn-primary" id="btnNext" data-i18n="wizard.next">Suivant →</button>
+    </div>
+  </div>
+
+</div><!-- /wizard -->
+
+<script src="lib/i18n.js"></script>
+<script src="platform-adapter.js"></script>
+<script src="wizard.js"></script>
+</body>
+</html>

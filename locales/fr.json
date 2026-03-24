@@ -1,0 +1,773 @@
+{
+  "app": {
+    "title": "AEROKIOSK",
+    "poweredBy": "POWERED BY TRISKELL AEROKIOSK",
+    "configError": "Erreur de configuration",
+    "configErrorDetail": "Impossible de charger config.json.<br>Vérifiez que le fichier existe et est valide.",
+    "connectionLost": "CONNEXION PERDUE",
+    "internetLost": "⚠ CONNEXION INTERNET PERDUE",
+    "dataStale": "⚠ DONNÉES DATÉES DE {{time}} UTC — CONNEXION PERDUE",
+    "mapUnavailable": "CARTE INDISPONIBLE",
+    "live": "LIVE",
+    "update": "MAJ: {{time}}",
+    "demoData": "DÉMO — données fictives",
+    "settings": "Paramètres",
+    "loading": "Chargement..."
+  },
+
+  "demo": {
+    "banner": "MODE DÉMONSTRATION — Entrez votre clé produit dans les réglages"
+  },
+
+  "update": {
+    "ready": "MISE À JOUR DISPONIBLE",
+    "restart": "Redémarrez pour installer"
+  },
+
+  "reinstall": {
+    "newVersion": "Nouvelle version détectée",
+    "detail": "Une configuration existante a été trouvée. Voulez-vous la conserver ou reconfigurer ?",
+    "keepConfig": "Continuer avec ma configuration",
+    "runWizard": "Relancer le wizard"
+  },
+
+  "sun": {
+    "title": "Éphémérides locales",
+    "aeroMorning": "Fin nuit aéro",
+    "sunrise": "Lever",
+    "sunset": "Coucher",
+    "aeroEvening": "Nuit aéro",
+    "imsak": "Imsak",
+    "iftar": "Iftar",
+    "iftarCountdown": "Iftar dans",
+    "iftarNow": "Iftar !"
+  },
+
+  "conditions": {
+    "title": "Conditions actuelles",
+    "wind": "Vent",
+    "visibility": "Visibilité",
+    "ceiling": "Plafond",
+    "tempDew": "Temp / Dew",
+    "qnh": "QNH",
+    "phenomena": "Phénomènes"
+  },
+
+  "runway": {
+    "title": "Composantes vent piste",
+    "headwind": "Face",
+    "tailwind": "Arrière",
+    "crosswind": "Travers",
+    "gust": "G",
+    "sideLeft": "G",
+    "sideRight": "D"
+  },
+
+  "metar": {
+    "title": "METAR",
+    "unavailable": "METAR indisponible — vérifiez la connexion",
+    "noData": "Aucune donnée",
+    "age": "(il y a {{minutes}} min)",
+    "stale": "METAR OBSOLÈTE"
+  },
+
+  "taf": {
+    "title": "TAF",
+    "unavailable": "TAF indisponible",
+    "noData": "Aucune donnée",
+    "valid": "Valide du {{d1}} à {{h1}}h UTC au {{d2}} à {{h2}}h UTC",
+    "conditions": "Conditions",
+    "becmg": "Évolution progressive",
+    "tempo": "Temporairement",
+    "prob": "Probabilité {{pct}}%",
+    "from": "À partir de"
+  },
+
+  "sigmet": {
+    "title": "SIGMET / AIRMET — {{fir}}",
+    "noActive": "✓ Aucun SIGMET/AIRMET actif — {{fir}}",
+    "unavailable": "SIGMET indisponibles"
+  },
+
+  "fog": {
+    "confirmed": "BROUILLARD — Visibilité {{vis}}m",
+    "risk": "Risque brouillard — Spread {{spread}}°C",
+    "metarTrend": "Risque brouillard imminent (TEMPO) — Spread {{spread}}°C",
+    "tafWarning": "Brouillard prévu (TAF) — Spread {{spread}}°C"
+  },
+
+  "sunset": {
+    "nightActive": "⚠ NUIT AÉRONAUTIQUE EN COURS",
+    "warning": "⚠ NUIT AÉRONAUTIQUE DANS {{minutes}} MIN",
+    "placeholder": "⚠ NUIT AÉRONAUTIQUE DANS --:--"
+  },
+
+  "wx": {
+    "DZ": "bruine",
+    "RA": "pluie",
+    "SN": "neige",
+    "SG": "neige en grains",
+    "IC": "cristaux de glace",
+    "PL": "granules de glace",
+    "GR": "grêle",
+    "GS": "grésil",
+    "UP": "précipitation",
+    "BR": "brume",
+    "FG": "brouillard",
+    "FU": "fumée",
+    "VA": "cendres volcaniques",
+    "DU": "poussière",
+    "SA": "sable",
+    "HZ": "brume sèche",
+    "PO": "tourbillons de poussière",
+    "SQ": "grains",
+    "FC": "trombe",
+    "SS": "tempête de sable",
+    "DS": "tempête de poussière",
+    "MI": "mince",
+    "PR": "partiel",
+    "BC": "en bancs",
+    "DR": "chasse basse",
+    "BL": "chasse haute",
+    "SH": "averses de",
+    "TS": "orage avec",
+    "FZ": "verglaçant",
+    "intense": "forte",
+    "light": "faible",
+    "vicinity": "à proximité",
+    "cloudFew": "Quelques nuages",
+    "cloudSct": "Nuages épars",
+    "cloudBkn": "Nuages fragmentés",
+    "cloudOvc": "Couvert",
+    "cloudCb": " (cumulonimbus)",
+    "cloudTcu": " (cumulus bourgeonnant)",
+    "windCalm": "vent calme",
+    "windVariable": "vent variable",
+    "windFrom": "vent",
+    "gusts": "rafales",
+    "visBeyond": "visi > 10 km",
+    "visKm": "visi {{value}} km",
+    "visM": "visi {{value}} m"
+  },
+
+  "mapLayers": {
+    "clouds_new": "NUAGES",
+    "precipitation_new": "PRÉCIPITATIONS",
+    "pressure_new": "PRESSION",
+    "wind_new": "VENT",
+    "temp_new": "TEMPÉRATURE",
+    "snow_new": "NEIGE",
+    "gusts": "RAFALES",
+    "dewpoint": "POINT DE ROSÉE",
+    "cape": "CAPE",
+    "pbl": "COUCHE LIMITE",
+    "uv": "INDICE UV",
+    "wind_altitude": "VENT EN ALTITUDE"
+  },
+
+  "mapLegend": {
+    "clouds_new": "Couverture %",
+    "precipitation_new": "Pluie mm",
+    "pressure_new": "hPa",
+    "wind_new": "kt",
+    "temp_new": "°C",
+    "snow_new": "Neige mm",
+    "velocity_wind": "Vent (kt)",
+    "scalar_temperature": "Température (°C)",
+    "scalar_pressure": "Pression (hPa)",
+    "scalar_gusts": "Rafales (kt)",
+    "scalar_dewpoint": "Point de rosée (°C)",
+    "scalar_cape": "CAPE (J/kg)",
+    "scalar_pbl": "Couche limite (m)",
+    "scalar_uv": "Indice UV",
+    "scalar_clouds": "Couverture nuageuse (%)",
+    "scalar_precipitation": "Précipitations (mm/h)",
+    "velocity_wind_altitude": "Vent altitude (kt)"
+  },
+
+  "fleet": {
+    "title": "Disponibilité flotte",
+    "available": "Disponible",
+    "unavailable": "Indisponible",
+    "melActive": "{{count}} restriction MEL",
+    "melActivePlural": "{{count}} restrictions MEL",
+    "reason": "Motif",
+    "expires": "Expire le {{date}}",
+    "source": "Source",
+    "sourceAdmin": "Administration locale",
+    "sourceApi": "API externe",
+    "updatedAt": "Mis à jour {{datetime}}",
+    "statusTitle": "Statut flotte",
+    "maintenance": "Maintenance",
+    "simulators": "Simulateurs",
+    "unknown": "Autre"
+  },
+
+  "planning": {
+    "title": "Planning du jour",
+    "aircraft": "Avions",
+    "rooms": "Salles",
+    "empty": "Aucune réservation aujourd'hui"
+  },
+
+  "briefing": {
+    "title": "Salles",
+    "free": "LIBRE",
+    "busy": "OCCUPÉE",
+    "until": "jusqu'à",
+    "next": "Prochain créneau",
+    "noRooms": "Aucune salle configurée"
+  },
+
+  "booking": {
+    "role_instructeur": "instructeur",
+    "role_stagiaire": "stagiaire",
+    "role_examinateur": "examinateur",
+    "role_autre": "autre"
+  },
+
+  "settings": {
+    "title": "PARAMÈTRES",
+    "close": "✕ Fermer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+
+    "tabAerodrome": "Aérodrome",
+    "tabThresholds": "Seuils",
+    "tabMaps": "Carte",
+    "tabTraffic": "Trafic",
+    "tabSections": "Sections",
+    "tabAppearance": "Apparence",
+    "tabDisplay": "Contenu club",
+    "tabSystem": "Système",
+    "tabLicense": "Licence",
+
+    "general": {
+      "languageSection": "Langue",
+      "configSection": "Configuration",
+      "configHint": "Exporter ou importer la configuration complète (fichier JSON).",
+      "wizardHint": "Recommencer la configuration initiale depuis le début.",
+      "connectionSection": "Connexion",
+      "securitySection": "Sécurité",
+      "changePassword": "Modifier le mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "currentPasswordPlaceholder": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "newPasswordPlaceholder": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer",
+      "confirmPasswordPlaceholder": "Confirmer le nouveau mot de passe",
+      "savePassword": "Enregistrer",
+      "passwordMismatch": "Les mots de passe ne correspondent pas.",
+      "passwordOldIncorrect": "Mot de passe actuel incorrect.",
+      "passwordChanged": "Mot de passe modifié avec succès.",
+      "passwordSet": "Mot de passe défini avec succès.",
+      "passwordRemoved": "Mot de passe supprimé.",
+      "passwordStatusSet": "Un mot de passe admin est défini.",
+      "passwordStatusNone": "Aucun mot de passe admin défini.",
+      "passwordNewRequired": "Entrez un nouveau mot de passe.",
+      "appSection": "Application"
+    },
+
+    "language": {
+      "title": "Langue",
+      "label": "Langue de l'interface"
+    },
+
+    "aerodrome": {
+      "runwaysSection": "Pistes"
+    },
+
+    "appearance": {
+      "themeSection": "Thème",
+      "brandingSection": "Identité visuelle"
+    },
+
+    "station": {
+      "icaoLabel": "Code OACI ou nom",
+      "searchPlaceholder": "Rechercher un aérodrome...",
+      "displayName": "Nom affiché",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "fir": "FIR",
+      "firPlaceholder": "ex: LFRR",
+      "firName": "Nom FIR",
+      "firNamePlaceholder": "ex: FIR Brest",
+      "sigmetRegion": "Région SIGMET",
+      "regionEur": "Europe",
+      "regionNam": "Amérique du Nord",
+      "regionIntl": "International",
+      "rerunWizard": "Relancer le wizard",
+      "confirmRerunWizard": "Relancer le wizard ? La configuration actuelle sera sauvegardée comme backup.",
+      "noResult": "Aucun résultat"
+    },
+
+    "runways": {
+      "name": "Nom",
+      "namePlaceholder": "ex: 09",
+      "heading": "Cap (°)",
+      "headingPlaceholder": "090",
+      "add": "+ Ajouter",
+      "noRunway": "Aucune piste."
+    },
+
+    "thresholds": {
+      "profile": "Profil",
+      "standard": "Standard",
+      "custom": "Personnalisé",
+      "vfr": "VFR",
+      "vfrSpecial": "VFR Spécial",
+      "greenThreshold": "Seuil vert (conditions optimales)",
+      "minVisibility": "Visibilité min (m)",
+      "minCeiling": "Plafond min (ft)",
+      "runwayWind": "Vent piste",
+      "crossDanger": "Travers danger (kt)",
+      "crossWarning": "Travers alerte (kt)",
+      "tailDanger": "Arrière danger (kt)",
+      "tailWarning": "Arrière alerte (kt)",
+      "fogTitle": "Brouillard (écart T°/Rosée)",
+      "fogDanger": "Danger (°C)",
+      "fogWarning": "Alerte (°C)",
+      "fogWatch": "Vigilance (°C)",
+      "metarAge": "Âge METAR",
+      "metarDanger": "Danger (min)",
+      "metarWarning": "Alerte (min)",
+      "sunsetAlert": "Alerte nuit aéronautique",
+      "sunsetOrange": "Alerte orange (min avant)",
+      "sunsetRed": "Alerte rouge (min avant)",
+      "category": "Catégorie",
+      "visibility": "Visibilité",
+      "ceiling": "Plafond"
+    },
+
+    "units": {
+      "title": "Unités d'affichage",
+      "pressure": "Pression",
+      "visibility": "Visibilité",
+      "temperature": "Température",
+      "wind": "Vent",
+      "metric": "Métrique (m/km)",
+      "statuteMiles": "Statute Miles (SM)",
+      "knots": "Nœuds (kt)",
+      "kmh": "km/h"
+    },
+
+    "maps": {
+      "weatherMap": "Carte météo",
+      "basemap": "Fond de carte",
+      "basemapDark": "Sombre minimal",
+      "basemapDarkDetail": "Sombre détaillé (routes et villes)",
+      "basemapVoyager": "Clair (routes et villes)",
+      "basemapOsm": "Standard OpenStreetMap",
+      "basemapAuto": "Fond auto jour/nuit",
+      "basemapDay": "Fond de jour",
+      "basemapNight": "Fond de nuit",
+      "basemapBrightnessDay": "Luminosité jour",
+      "basemapBrightnessNight": "Luminosité nuit",
+      "weatherIntensityDark": "Intensité couches météo (fond sombre)",
+      "weatherIntensityLight": "Intensité couches météo (fond clair)",
+      "airportsOnMap": "Terrains sur la carte",
+      "airportsNone": "Masqués",
+      "airportsIcao": "Aéroports uniquement",
+      "airportsUlm": "Bases ULM uniquement",
+      "airportsAll": "Aéroports + Bases ULM",
+      "zoom": "Zoom",
+      "offsetNS": "Décalage N/S",
+      "offsetEW": "Décalage E/O",
+      "layerDuration": "Durée par couche (s)",
+      "enabledLayers": "Couches activées",
+      "dayOnly": "jour seul.",
+
+      "trafficTitle": "Trafic aérien",
+      "trafficEnabled": "Afficher le trafic aérien en temps réel",
+      "trafficDetail": "Niveau de détail",
+      "trafficIcon": "Icône seule",
+      "trafficCallsign": "Icône + indicatif",
+      "trafficFull": "Icône + indicatif + altitude",
+      "trafficRefresh": "Rafraîchissement (s)",
+      "trafficRadius": "Rayon (NM)",
+      "trafficAlt": "Altitude max (ft)",
+      "trafficAltUnlimited": "(0 = illimité)",
+      "trafficWatchlist": "Mes avions (indicatifs, séparés par des virgules)",
+      "trafficWatchMode": "Mode d'affichage",
+      "trafficWatchHighlight": "Mes avions surlignés (tous affichés)",
+      "trafficWatchOnly": "Mes avions uniquement",
+
+      "flarmTitle": "Trafic FLARM",
+      "flarmEnabled": "Afficher le trafic FLARM (planeurs, ULM)",
+      "flarmRadius": "Rayon FLARM (km)",
+      "flarmHint": "Les aéronefs FLARM apparaissent en triangles verts sur la carte. Les filtres altitude et watchlist ci-dessus s'appliquent aussi au trafic FLARM.",
+      "fr24Title": "FlightRadar24",
+      "fr24Enabled": "Activer FlightRadar24 (nécessite un abonnement)",
+      "fr24ApiKey": "Clé API",
+      "fr24ApiKeyPlaceholder": "Coller votre clé API FR24...",
+      "fr24Link": "Obtenir une clé API",
+      "fr24Hint": "Les avions FR24 apparaissent en rose sur la carte. Inclut les avions Mode S (MLAT) non visibles sur ADS-B."
+    },
+
+    "sections": {
+      "sunTimes": "Éphémérides",
+      "conditions": "Conditions actuelles",
+      "fogAlert": "Alerte brouillard",
+      "runwayComponents": "Composantes vent piste",
+      "preferredRunway": "Piste préférentielle",
+      "metar": "METAR",
+      "taf": "TAF",
+      "tafBar": "Barre visuelle TAF",
+      "sigmet": "SIGMET / AIRMET",
+      "flightCategory": "Catégorie de vol",
+      "sunsetWarning": "Alerte coucher de soleil",
+      "ramadan": "Horaires Ramadan (Imsak / Iftar)",
+      "tafDisplayLabel": "Affichage TAF",
+      "tafRaw": "Brut uniquement",
+      "tafDecoded": "Décodé uniquement",
+      "tafBoth": "Brut + Décodé",
+      "tafBarOnly": "Barre visuelle seule",
+      "sidebarPosition": "Position du panneau météo",
+      "sidebarRight": "À droite de la carte",
+      "sidebarLeft": "À gauche de la carte",
+      "activityProfile": "Profil d'activité",
+      "profileStandard": "Standard (aérodrome)",
+      "profileGlider": "Planeur",
+      "profileAeromodel": "Aéromodélisme",
+      "profileCustom": "Personnalisé",
+      "kioskTitle": "Mode kiosque",
+      "kioskLabel": "Verrouiller l'écran (mode kiosque)",
+      "kioskHint": "Bloque Alt+F4, Escape et masque la barre des tâches. L'app redémarre en plein écran verrouillé. Pour désactiver : cliquez sur le logo → mot de passe admin → décochez ce toggle → Enregistrer."
+    },
+    "kiosk": {
+      "displayLabel": "Écran d'affichage",
+      "displayHint": "L'app démarrera en plein écran sur l'écran sélectionné.",
+      "layoutLabel": "Mode d'affichage",
+      "layoutFull": "Complet (carte + sidebar)",
+      "layoutMapOnly": "Carte seule (sans sidebar)"
+    },
+    "screens": {
+      "mainDisplay": "Écran principal",
+      "mainHint": "L'écran principal utilise la configuration globale (sections, carte, sidebar, etc.).",
+      "title": "Écrans supplémentaires",
+      "hint": "Configurez l'affichage de chaque écran supplémentaire. Les options non personnalisées héritent de la configuration globale.",
+      "add": "Ajouter un écran",
+      "remove": "Supprimer",
+      "showMap": "Carte",
+      "showPlanning": "Planning",
+      "sidebar": "Sidebar",
+      "fleet": "Flotte",
+      "clubDisplay": "Contenu club",
+      "sectionsTitle": "Sections sidebar",
+      "layersTitle": "Couches météo"
+    },
+    "rooms": {
+      "title": "Salles",
+      "typeBriefing": "Briefing",
+      "typeSimulateur": "Simulateur",
+      "typeCours": "Cours",
+      "typeAutre": "Autre",
+      "certifications": "Certifications",
+      "certMCC": "MCC",
+      "certQT": "QT",
+      "simType": "Type de simulateur",
+      "simVPT": "VPT",
+      "simFNPT1": "FNPT-I",
+      "simFNPT2": "FNPT-II",
+      "simFTD": "FTD",
+      "simFFS": "FFS",
+      "hasBriefingArea": "Brief intégré",
+      "hasBriefingAreaHint": "La salle dispose d'un espace briefing intégré",
+      "autoBookBriefForSim": "Brief auto pour simu",
+      "autoBookBriefForSimHint": "Réserver automatiquement une salle de brief pour les séances simulateur sans brief intégré"
+    },
+
+    "theme": {
+      "mode": "Mode",
+      "auto": "Auto (jour/nuit)",
+      "fixed": "Thème fixe",
+      "dayTheme": "Thème jour",
+      "nightTheme": "Thème nuit",
+      "themeLabel": "Thème",
+      "cockpit": "Cockpit",
+      "ocean": "Océan",
+      "aeroclub": "Aéroclub",
+      "daylight": "Daylight"
+    },
+
+    "branding": {
+      "displayTitle": "Titre affiché",
+      "displayTitlePlaceholder": "ex: IROISE",
+      "displayTitleHint": "Affiché en gros dans le header du dashboard.",
+      "clubName": "Nom du club",
+      "clubNamePlaceholder": "ex: Aéroclub Iroise",
+      "logoDay": "Logo jour",
+      "logoNight": "Logo nuit",
+      "choose": "Choisir...",
+      "chooseLogoDay": "Choisir le logo jour",
+      "chooseLogoNight": "Choisir le logo nuit"
+    },
+
+    "display": {
+      "title": "Affichage club",
+      "enabledHint": "Permet d'afficher du contenu personnalisé (images, textes, annonces) sur le kiosque en rotation avec la météo. L'activation par écran se fait dans l'onglet Système.",
+      "serverEnabled": "Serveur local",
+      "serverHint": "Le serveur local permet d'accéder à l'interface admin depuis le WiFi du club, sans internet.",
+      "serverPort": "Port",
+      "placement": "Mode de rotation",
+      "placementAfter": "Slides club après la météo",
+      "placementInterleaved": "Intercalé avec la météo",
+      "placementOnly": "Contenu club uniquement",
+      "defaultDuration": "Durée par défaut des slides (s)",
+      "localAccess": "Accès interface admin",
+      "adminHint": "Ouvrez cette adresse depuis un appareil connecté au même réseau WiFi que le kiosque.",
+      "contentHint": "La gestion du contenu (slides, flash info, flash urgent) se fait via l'interface web admin.",
+      "qrCode": "QR code",
+      "serverOff": "Serveur local désactivé"
+    },
+
+    "fleet": {
+      "title": "Tableau flotte",
+      "source": "Source des données",
+      "sourceManual": "Administration manuelle",
+      "sourceApi": "API externe",
+      "duration": "Durée d'affichage",
+      "showHours": "Afficher les heures totales",
+      "apiEndpoint": "URL de l'API",
+      "apiKey": "Clé API",
+      "manage": "Gérer la flotte",
+      "add": "Ajouter un aéronef",
+      "edit": "Modifier l'aéronef",
+      "registration": "Immatriculation",
+      "type": "Type",
+      "hours": "Heures totales",
+      "status": "Statut",
+      "melItems": "Items MEL",
+      "melAdd": "Ajouter une MEL",
+      "melCode": "Code ATA",
+      "melDesc": "Description",
+      "nogoReason": "Motif d'indisponibilité",
+      "maintReason": "Motif de maintenance",
+      "simulator": "Simulateur",
+      "save": "Enregistrer",
+      "confirmDelete": "Supprimer cet aéronef ?",
+      "regRequired": "L'immatriculation est obligatoire.",
+      "empty": "Aucun aéronef configuré.",
+      "showGoSidebar": "Afficher les avions GO dans la sidebar",
+      "statusScroll": "Défilement sidebar — durée par page (secondes)",
+      "overlayScroll": "Défilement overlay",
+      "autoWatchlist": "Ajouter la flotte à mes avions (trafic)",
+      "showOverlay": "Tableau flotte (carrousel)",
+      "showStatusBar": "Rapport flotte (sidebar)",
+      "showMaintSidebar": "Afficher les avions en maintenance dans la sidebar",
+      "showSimSidebar": "Afficher les simulateurs dans la sidebar"
+    },
+
+    "rooms": {
+      "briefingMinutes": "Briefing par défaut (min)",
+      "debriefingMinutes": "Débriefing par défaut (min)"
+    },
+
+    "gearup": {
+      "title": "Connecteur GearUp",
+      "enabled": "Activer le connecteur externe",
+      "apiSource": "Source des données",
+      "sourceNone": "Aucune (saisie manuelle)",
+      "sourceGearup": "GearUp",
+      "apiEndpoint": "URL du serveur GearUp",
+      "apiKey": "Clé API",
+      "pollInterval": "Fréquence de polling (s)",
+      "testConnection": "Tester la connexion",
+      "testMissing": "Renseignez l'URL et la clé API.",
+      "testOk": "Connexion réussie",
+      "testFail": "Connexion échouée"
+    },
+
+    "license": {
+      "currentKey": "Clé actuelle",
+      "expiration": "Expiration :",
+      "lastCheck": "Dernière vérif. :",
+      "enterNewKey": "Entrer une nouvelle clé",
+      "keyLabel": "Clé de licence",
+      "validate": "Valider",
+      "validating": "Vérification...",
+      "active": "Active",
+      "demo": "Démonstration",
+      "enterKey": "Entrez une clé.",
+      "invalidKey": "Clé invalide",
+      "serverError": "Impossible de contacter le serveur. Vérifiez votre connexion.",
+      "devices": "Appareils enregistrés",
+      "devicesLoading": "Chargement...",
+      "noLicense": "Aucune licence active",
+      "loadError": "Impossible de charger la liste",
+      "noDevices": "Aucun appareil enregistré",
+      "thisDevice": "(cet appareil)",
+      "lastSeen": "Dernière connexion :",
+      "remove": "Retirer",
+      "confirmRemove": "Retirer cet appareil ? Il devra réactiver la licence au prochain démarrage.",
+      "removeError": "Erreur :",
+      "resetAll": "Reset tous les appareils",
+      "confirmResetAll": "Supprimer TOUS les appareils de cette licence ? Chaque appareil devra se réenregistrer au prochain démarrage.",
+      "buy": "Acheter une licence ↗"
+    },
+
+    "app": {
+      "version": "Version :",
+      "checkUpdate": "Vérifier les mises à jour",
+      "checking": "Vérification...",
+      "checkDone": "Vérification terminée.",
+      "checkError": "Impossible de vérifier les mises à jour.",
+      "updateReady": "MAJ prête"
+    },
+
+    "footer": {
+      "quit": "Quitter l'application",
+      "confirmQuit": "Quitter l'application ?",
+      "export": "Exporter",
+      "import": "Importer",
+      "testConnection": "Tester connexion",
+      "testing": "Test en cours...",
+      "exportSuccess": "Configuration exportée avec succès.",
+      "importSuccess": "Configuration importée. Vérifiez les valeurs puis cliquez sur Enregistrer.",
+      "saveError": "Erreur de sauvegarde :"
+    },
+
+    "password": {
+      "title": "MOT DE PASSE",
+      "placeholder": "Mot de passe admin",
+      "required": "Entrez le mot de passe.",
+      "incorrect": "Mot de passe incorrect.",
+      "forgot": "Mot de passe oublié ?",
+      "resetTitle": "RÉINITIALISATION",
+      "resetInstructions": "Entrez votre clé de licence pour réinitialiser le mot de passe admin.",
+      "resetPlaceholder": "AERO-XXXX-XXXX-XXXX",
+      "resetButton": "Réinitialiser",
+      "resetSuccess": "Mot de passe supprimé. Vous pouvez en définir un nouveau dans Paramètres > Général.",
+      "resetInvalidKey": "Clé de licence incorrecte.",
+      "resetBack": "← Retour"
+    },
+
+    "connection": {
+      "metarLabel": "METAR / TAF (aviationweather.gov)",
+      "owmLabel": "Cartes météo (OpenWeatherMap)",
+      "failure": "Échec"
+    }
+  },
+
+  "wizard": {
+    "title": "Configuration initiale",
+    "next": "Suivant →",
+    "prev": "← Retour",
+    "launch": "Lancer AeroKiosk →",
+    "demoMode": "Mode démonstration →",
+    "saveError": "Erreur de sauvegarde :",
+
+    "language": {
+      "title": "Langue",
+      "subtitle": "Choisissez la langue de l'interface."
+    },
+
+    "license": {
+      "title": "Clé de licence",
+      "subtitle": "Entrez votre clé produit pour activer AeroKiosk, ou passez en mode démonstration.",
+      "keyLabel": "Clé produit",
+      "keyPlaceholder": "AERO-XXXX-XXXX-XXXX",
+      "checking": "Vérification...",
+      "valid": "Clé valide",
+      "invalid": "Clé invalide. Corrigez-la ou passez en mode démonstration.",
+      "offline": "Impossible de vérifier la clé. Vérifiez votre connexion internet.",
+      "buy": "Acheter une licence ↗"
+    },
+
+    "airport": {
+      "title": "Votre aérodrome",
+      "subtitle": "Tapez un code OACI (ex : LFRB) ou un nom de ville. La base contient {{count}} terrains français.",
+      "searchLabel": "Rechercher",
+      "searchPlaceholder": "Code OACI ou nom de ville...",
+      "noResult": "Aucun résultat",
+      "icao": "OACI",
+      "ulm": "ULM",
+      "metarStation": "METAR :",
+      "fieldLabel": "Terrain",
+      "city": "Ville",
+      "coordinates": "Coordonnées",
+      "altitude": "Altitude",
+      "fir": "FIR",
+      "runways": "Pistes",
+      "runwaysCount": "{{count}} détectée(s)",
+      "ulmNotice": "Ce terrain n'a pas de station météo propre. Les données METAR/TAF proviendront de {{station}} ({{distance}} km)."
+    },
+
+    "runways": {
+      "title": "Pistes",
+      "subtitle": "Vérifiez les pistes détectées. Vous pouvez en ajouter ou en supprimer.",
+      "detected": "{{count}} piste(s) détectée(s) pour {{id}}. Vous pouvez en ajouter ou en supprimer.",
+      "noneFound": "Aucune piste trouvée dans la base. Ajoutez vos pistes manuellement.",
+      "noneDetected": "Aucune piste détectée. Ajoutez-en une ci-dessous."
+    },
+
+    "customization": {
+      "title": "Personnalisation",
+      "subtitle": "Configurez l'apparence de votre dashboard.",
+      "clubName": "Nom du club",
+      "clubNamePlaceholder": "ex: Aéroclub Iroise",
+      "displayTitle": "Titre affiché sur le dashboard",
+      "displayTitlePlaceholder": "ex: IROISE (en majuscules)",
+      "logoDay": "Logo jour",
+      "logoNight": "Logo nuit",
+      "noFile": "Aucun fichier",
+      "choose": "Choisir...",
+      "theme": "Thème",
+      "themeAuto": "Auto",
+      "themeCockpit": "Cockpit",
+      "themeOcean": "Océan",
+      "themeAeroclub": "Aéroclub",
+      "themeDaylight": "Daylight",
+      "password": "Mot de passe admin",
+      "passwordPlaceholder": "Protège l'accès aux réglages",
+      "passwordHint": "Ce mot de passe sera demandé pour accéder aux réglages depuis le dashboard.",
+      "passwordConfirm": "Confirmer le mot de passe",
+      "passwordConfirmPlaceholder": "Confirmer",
+      "passwordMismatch": "Les mots de passe ne correspondent pas."
+    },
+
+    "summary": {
+      "title": "Résumé",
+      "subtitle": "Vérifiez votre configuration avant de lancer le dashboard.",
+      "terrain": "Terrain",
+      "metarStation": "Station METAR",
+      "coordinates": "Coordonnées",
+      "fir": "FIR",
+      "runways": "Pistes",
+      "none": "Aucune",
+      "club": "Club",
+      "theme": "Thème",
+      "license": "Licence",
+      "themeAuto": "Auto (jour/nuit)",
+      "themeCockpit": "Cockpit",
+      "themeOcean": "Océan",
+      "themeAeroclub": "Aéroclub",
+      "themeDaylight": "Daylight",
+      "active": "Active",
+      "demo": "Démonstration"
+    }
+  },
+
+  "dialogs": {
+    "exportTitle": "Exporter la configuration",
+    "importTitle": "Importer une configuration",
+    "selectFile": "Choisir un fichier",
+    "invalidJson": "Fichier JSON invalide :"
+  },
+
+  "validation": {
+    "stationMissing": "Section 'station' manquante",
+    "icaoInvalid": "Code OACI invalide",
+    "latInvalid": "Latitude invalide",
+    "lonInvalid": "Longitude invalide",
+    "runwaysMissing": "Section 'runways' manquante",
+    "thresholdsMissing": "Section 'thresholds' manquante",
+    "mapsMissing": "Section 'maps' manquante",
+    "brandingMissing": "Section 'branding' manquante",
+    "keyMissing": "Clé manquante",
+    "formatInvalid": "Format invalide",
+    "charsInvalid": "Caractères invalides",
+    "keyInvalid": "Clé invalide",
+    "noActiveKey": "Pas de licence active"
+  }
+}
