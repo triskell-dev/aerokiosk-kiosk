@@ -1,0 +1,32 @@
+# AeroKiosk — Rotation des logs
+# Empeche la carte SD de se remplir (usage kiosque 24/7)
+
+/var/log/aerokiosk-healthcheck.log {
+    size 1M
+    rotate 2
+    compress
+    missingok
+    notifempty
+    copytruncate
+}
+
+/home/aerokiosk/.cache/chromium/chrome_debug.log {
+    size 1M
+    rotate 1
+    compress
+    missingok
+    notifempty
+    copytruncate
+}
+
+/var/log/syslog {
+    size 5M
+    rotate 2
+    compress
+    missingok
+    notifempty
+    copytruncate
+    postrotate
+        /usr/lib/rsyslog/rsyslog-rotate
+    endscript
+}

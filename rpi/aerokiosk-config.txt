@@ -1,0 +1,12 @@
+# AeroKiosk — Configuration Raspberry Pi
+#
+# Remplissez les champs ci-dessous AVANT de demarrer le Raspberry Pi.
+# Deposez ce fichier sur la partition "boot" de la carte SD.
+#
+# Cle de licence AeroKiosk (obligatoire) :
+LICENCE_KEY=
+
+# Wi-Fi (optionnel — laissez vide si cable Ethernet) :
+WIFI_SSID=
+WIFI_PASSWORD=
+WIFI_COUNTRY=FR

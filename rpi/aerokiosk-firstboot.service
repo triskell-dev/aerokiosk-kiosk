@@ -1,0 +1,13 @@
+[Unit]
+Description=AeroKiosk First Boot Configuration
+After=local-fs.target
+Before=getty@tty1.service
+ConditionPathExists=/boot/firmware/aerokiosk-config.txt
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/aerokiosk-firstboot.sh
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target

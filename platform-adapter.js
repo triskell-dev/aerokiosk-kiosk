@@ -1140,6 +1140,7 @@
             var newJson = JSON.stringify(newConfig);
             if (oldJson !== newJson) {
               cachedConfig = newConfig;
+              syncAndroidKioskMode(newConfig);
               console.log('[Platform] Config changed remotely — reloading in 2s');
               if (configReloadTimer) clearTimeout(configReloadTimer);
               configReloadTimer = setTimeout(function() {
@@ -1156,6 +1157,29 @@
 
   // Lancer la synchro config apres un court delai (laisser le dashboard charger)
   setTimeout(initConfigSync, 3000);
+
+  // ============================================================
+  // Pont Android — synchro mode kiosque
+  // Si on tourne dans le WebView Android, appeler le bridge natif
+  // ============================================================
+
+  function syncAndroidKioskMode(config) {
+    if (!config) return;
+    if (typeof window.AeroKiosk !== 'undefined' && typeof window.AeroKiosk.setKioskMode === 'function') {
+      var enabled = config.kioskMode === true;
+      console.log('[Platform] Android kiosk mode: ' + (enabled ? 'ON' : 'OFF'));
+      window.AeroKiosk.setKioskMode(enabled);
+    }
+  }
+
+  // Appeler au chargement initial (quand getConfig retourne)
+  var _origGetConfig = window.platform.getConfig;
+  window.platform.getConfig = function() {
+    return _origGetConfig.call(window.platform).then(function(cfg) {
+      syncAndroidKioskMode(cfg);
+      return cfg;
+    });
+  };
 
   // ============================================================
   // Proxy CORS — intercepte fetch() pour les APIs bloquees

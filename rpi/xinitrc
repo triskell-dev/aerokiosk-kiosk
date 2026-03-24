@@ -1,0 +1,31 @@
+#!/bin/sh
+# AeroKiosk — Raspberry Pi kiosk mode
+# Ce fichier est copie dans ~/.xinitrc par setup.sh
+
+# Desactiver screensaver et mise en veille ecran
+xset s off
+xset s noblank
+xset -dpms
+
+# Masquer le curseur souris apres 0.5s d'inactivite
+unclutter -idle 0.5 -root &
+
+# Lire la cle de licence
+LICENCE_KEY="__LICENCE_KEY__"
+
+# Lancer Chromium en mode kiosque
+chromium-browser \
+  --kiosk \
+  --noerrdialogs \
+  --disable-infobars \
+  --disable-translate \
+  --no-first-run \
+  --disable-features=TranslateUI \
+  --check-for-update-interval=31536000 \
+  --disable-session-crashed-bubble \
+  --disable-component-update \
+  --autoplay-policy=no-user-gesture-required \
+  --start-fullscreen \
+  --window-size=1920,1080 \
+  --window-position=0,0 \
+  "https://kiosk.aerokiosk.app?key=${LICENCE_KEY}"
