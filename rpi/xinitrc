@@ -28,4 +28,9 @@ chromium-browser \
   --start-fullscreen \
   --window-size=1920,1080 \
   --window-position=0,0 \
+  --disable-dev-shm-usage \
+  --disable-gpu-memory-buffer-video-frames \
+  --disable-breakpad \
+  --disable-backgrounding-occluded-windows \
+  --disable-renderer-backgrounding \
   "https://kiosk.aerokiosk.app?key=${LICENCE_KEY}"

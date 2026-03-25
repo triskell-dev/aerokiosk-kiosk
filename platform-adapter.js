@@ -12,6 +12,15 @@
 (function() {
   'use strict';
 
+  // Polyfill AbortSignal.timeout pour Safari 12 / vieux Chromium
+  if (typeof AbortSignal !== 'undefined' && !AbortSignal.timeout) {
+    AbortSignal.timeout = function(ms) {
+      var controller = new AbortController();
+      setTimeout(function() { controller.abort(); }, ms);
+      return controller.signal;
+    };
+  }
+
   // ============================================================
   // MODE ELECTRON — proxy transparent
   // ============================================================

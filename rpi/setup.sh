@@ -105,9 +105,11 @@ fi
 
 # --- 7. Optimisations GPU ---
 echo "[7/11] Optimisation GPU pour Chromium..."
-# Allouer plus de memoire au GPU (128 Mo minimum pour Chromium fluide)
+# Allouer plus de memoire au GPU (256 Mo pour Leaflet + couches meteo fluides)
 if ! grep -q "^gpu_mem=" /boot/firmware/config.txt 2>/dev/null; then
-    echo "gpu_mem=128" >> /boot/firmware/config.txt
+    echo "gpu_mem=256" >> /boot/firmware/config.txt
+else
+    sed -i 's/^gpu_mem=.*/gpu_mem=256/' /boot/firmware/config.txt
 fi
 # Desactiver le splash screen pour un demarrage plus rapide
 if ! grep -q "^disable_splash=" /boot/firmware/config.txt 2>/dev/null; then

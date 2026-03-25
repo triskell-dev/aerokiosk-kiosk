@@ -3648,6 +3648,7 @@ const TRAFFIC_SVG_HIGHLIGHT = '<svg width="24" height="24" viewBox="-2 -1 24 22"
 
 function initTrafficLayer() {
   if (!CFG.traffic || !CFG.traffic.enabled) return;
+  if (trafficInterval) clearInterval(trafficInterval);
   fetchTraffic();
   const interval = (CFG.traffic.refreshSeconds || 10) * 1000;
   trafficInterval = setInterval(fetchTraffic, interval);
@@ -5270,7 +5271,7 @@ function initPermanentBriefing() {
   render();
 
   // Refresh toutes les 30s
-  setInterval(() => render(), 30000);
+  registerInterval('roomDisplay', setInterval(() => render(), 30000));
 
   // Écouter les changements
   if (api.onRoomsUpdate) {
