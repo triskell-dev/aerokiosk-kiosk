@@ -3492,20 +3492,22 @@ function updateFlashBanner() {
   }
 }
 
+function rebuildCarousel() {
+  buildMapSlots(mapIsNight);
+  if (rotationSlots.length > 0) {
+    dispatchSlot(rotationSlots[0]);
+    mapCountdown = rotationSlots[0].duration;
+    updateTabIndicator(0);
+  }
+}
+
 function loadClubSlides(slides) {
   clubSlides = slides || [];
   // Filtrer les expirés côté renderer aussi
   const now = new Date().toISOString();
   clubSlides = clubSlides.filter(s => !s.expires_at || s.expires_at > now);
   // Reconstruire le carrousel quand les slides changent
-  if (rotationSlots.length > 0 || weatherMap) {
-    buildMapSlots(mapIsNight);
-    if (rotationSlots.length > 0) {
-      dispatchSlot(rotationSlots[0]);
-      mapCountdown = rotationSlots[0].duration;
-      updateTabIndicator(0);
-    }
-  }
+  rebuildCarousel();
 }
 
 function refreshMap() {
@@ -4703,14 +4705,7 @@ function showFleetGroupPage(groups, perPage) {
 function loadFleetData(fleet) {
   fleetData = fleet || [];
   // Reconstruire le carrousel quand la flotte change
-  if (rotationSlots.length > 0 || weatherMap) {
-    buildMapSlots(mapIsNight);
-    if (rotationSlots.length > 0) {
-      dispatchSlot(rotationSlots[0]);
-      mapCountdown = rotationSlots[0].duration;
-      updateTabIndicator(0);
-    }
-  }
+  rebuildCarousel();
   updateFleetStatusSection();
 }
 
