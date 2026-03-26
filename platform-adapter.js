@@ -477,7 +477,7 @@
       showSidebar: scr.showSidebar !== undefined ? scr.showSidebar : true,
       sections: scr.sections || Object.assign({}, globalSections),
       fleet: scr.fleet !== undefined ? scr.fleet : (fleetCfg.showOverlay !== undefined ? fleetCfg.showOverlay : (fleetCfg.enabled || false)),
-      clubDisplay: scr.clubDisplay !== undefined ? scr.clubDisplay : false,
+      clubDisplay: scr.clubDisplay !== undefined ? scr.clubDisplay : ((screens[0] && screens[0].clubDisplay) || false),
       layers: resolvedLayers
     };
   }
