@@ -580,6 +580,10 @@
   body.view-fleet .club-overlay { display: none; }
   body.view-fleet .flash-banner { display: none; }
 
+  /* Mode mixte sans carte — sidebar + carrousel fleet/club */
+  body.view-nomap .map-container #weatherMap { display: none; }
+  body.view-nomap .map-container .map-legend { display: none; }
+
   /* Mode slides club seul — overlay club permanent plein écran */
   body.view-club { grid-template-columns: 1fr; }
   body.view-club .sidebar { display: none; }
@@ -1351,13 +1355,21 @@ async function loadConfig() {
     document.body.classList.add('view-map'); // masque la sidebar
   }
   if (!showMap && !showPlanning) {
-    // Pas de contenu principal — sidebar seule ou overlay plein écran
-    if (SCREEN_CONFIG.showSidebar) {
-      document.body.classList.add('view-weather');
-    } else if (SCREEN_CONFIG.fleet) {
-      document.body.classList.add('view-fleet');
-    } else if (SCREEN_CONFIG.clubDisplay) {
-      document.body.classList.add('view-club');
+    // Compter combien de contenus sont actifs (sidebar, fleet, club)
+    const activeContents = [SCREEN_CONFIG.showSidebar, SCREEN_CONFIG.fleet, SCREEN_CONFIG.clubDisplay].filter(Boolean).length;
+    if (activeContents <= 1) {
+      // Un seul contenu — mode permanent plein écran
+      if (SCREEN_CONFIG.showSidebar) {
+        document.body.classList.add('view-weather');
+      } else if (SCREEN_CONFIG.fleet) {
+        document.body.classList.add('view-fleet');
+      } else if (SCREEN_CONFIG.clubDisplay) {
+        document.body.classList.add('view-club');
+      }
+    } else {
+      // Plusieurs contenus sans carte — mode carrousel mixte
+      // Masquer la carte Leaflet mais garder le map-container pour les overlays fleet/club
+      document.body.classList.add('view-nomap');
     }
   }
 
