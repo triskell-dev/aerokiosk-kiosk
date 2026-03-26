@@ -1095,7 +1095,7 @@
 
     getScreenConfig: function() {
       var params = new URLSearchParams(window.location.search);
-      var idx = parseInt(params.get('screen') || '0', 10);
+      var idx = parseInt(params.get('screenIndex') || '0', 10);
       var cfg = cachedConfig;
       if (!cfg) {
         return window.platform.getConfig().then(function(c) {
